@@ -11,6 +11,25 @@
 
 ---
 
+# About This Talk
+
+#### Everything is on Github
+
+* https://github.com/
+   * [hbrc-fpga-class/](https://github.com/hbrc-fpga-class/)
+     * [class-material/](https://github.com/hbrc-fpga-class/class-material)
+       * [blob/master/presentation.pdf](https://github.com/hbrc-fpga-class/class-material/blob/master/presentation.pdf)
+
+---
+# About This Talk
+
+![center](./images/firehose.jpg)
+
+* Lots of information - $\frac{\Delta slides}{\Delta time} \propto log(time)$
+* Please save questions for the end
+
+---
+
 # Who are We?
 
 * Tinkerers with a bunch of software, hardware, firmware, and gateware experience (mostly Bob and Brandon, though :wink:)
@@ -23,6 +42,7 @@
 ---
 
 # What is an FPGA?
+
 <br>
 
 > To control a processor, you program it with instructions and tell it what to **do**... <br>
@@ -378,10 +398,18 @@ $GNVTG,0.00,T,,M,0.00,N,0.00,K,N*2C
 
 * Where: **Hacker Dojo**
 * When: **Wednesday, June 19, 2019**
-* Cost - **~$180 - $200**
+* Cost - **$200** (we'll refund you if materials end up being less)
 
 ![center 80%](./images/hdlogo.png)
 
 ---
 
 # Questions?
+
+<br><br>
+#### All HBA material is on GitHub:
+
+* https://github.com/
+   * [hbrc-fpga-class/](https://github.com/hbrc-fpga-class/)
+     * [class-material/](https://github.com/hbrc-fpga-class/class-material)
+       * [blob/master/presentation.pdf](https://github.com/hbrc-fpga-class/class-material/blob/master/presentation.pdf)
