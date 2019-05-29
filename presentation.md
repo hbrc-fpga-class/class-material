@@ -387,6 +387,14 @@ $GNVTG,0.00,T,,M,0.00,N,0.00,K,N*2C
 
 ---
 
+![bg 99% original center](./images/tinyfpga.jpg)
+
+---
+
+![bg 99% original center](./images/romi.jpg)
+
+---
+
 <!-- *page_number: false -->
 <!-- *template: default -->
 ![bg 99% original center](./images/tinyfpga-raspi-romi-board.png)
@@ -396,7 +404,7 @@ $GNVTG,0.00,T,,M,0.00,N,0.00,K,N*2C
 # Class Details
 
 * Where: **Hacker Dojo**
-* When: **Wednesday, June 19, 2019**
+* When: **Wednesday, June 19, 2019 - 7:00pm**
 * Cost - **$200** (we'll refund you if materials end up being less)
 
 ![center 80%](./images/hdlogo.png)
