@@ -4,13 +4,14 @@
 
 
 <!-- *page_number: false -->
-# Introduction to FPGAs using Homebrew Automation
+<!-- *template: default -->
+# ==Introduction to FPGAs using Homebrew Automation==
 
 ###### Brandon Blodget, Patrick Lloyd, & Bob Smith
 
 ---
 
-# Who Are We?
+# Who are We?
 
 * Tinkerers with a bunch of software, hardware, firmware, and gateware experience (mostly Bob and Brandon, though :wink:)
 * Engineers at OLogic, Inc.
@@ -31,24 +32,36 @@
 
 ---
 
+# What is an FPGA?
+
 * Short for ==**F**ield-**P**rogrammable **G**ate **A**rray==
-* One type of Programmable logic device (PLD)
-  * Most are re-programmable (these days)
+* One type of **Programmable Logic Device (PLD)**
+  * Implements arbitrary digital logic equations (i.e. Boolean operations)
+  * Most are re-programmable
   * Some are non-volatile, while others require external memory to save configuration
+
+---
+# What is an FPGA?
+
 * Other PLD's include:
   * PLA - Programmable Logic Array
   * PAL - Programmable Array Logic
   * GAL - Generic Array Logic
+  * SPLD - Simple Programmable Logic Device
   * CPLD - Complex Programmable Logic Device
+
+(Who names these things?)
 
 ---
 
-# FPGA Vendors
-* **Xilinx** - 50%
-* **Intel** (Altera) - 40%
-* **Lattice** - 6%
-* **Microchip** (Microsemi (Actel)) - 4%
-* Others (QuickLogic, Gowin, etc.) - 1%
+# Players
+
+FPGA vendors by market share:
+* **Xilinx** - ~50%
+* **Intel** (Altera) - ~40%
+* **Lattice** - >5%
+* **Microchip** (Microsemi (Actel)) - <5%
+* Everyone else (QuickLogic, Gowin, etc.) - ~1%
 
 ---
 
@@ -63,14 +76,14 @@
 
 ![130% center](./images/cpuarch_no.png)
 
-* But an FPGA can be used to _implement_ "soft core" CPUs
+* But an FPGA can be used to _implement_ CPUs (known as "soft cores")
 ---
 
 # What's _Inside_ an FPGA?
 
 ![center](./images/logiccircuit.png)
 
-* Is it a big collection of AND / OR / NOT / NOR / NAND / NOR gates?
+* Is it a big collection of AND / OR / NOT / NOR / NAND / NOR gates? Perhaps even a _gate array_ of sorts?
 
 ---
 # What's _Inside_ an FPGA?
@@ -80,8 +93,9 @@
 * But an FPGA can be used to _implement_ arbitrary logic equations
 
 ---
+# What's _Inside_ an FPGA?
 
-![80% center](./images/genericfpgaarch.jpg)
+![100% center](./images/genericfpgaarch.jpg)
 
 --- 
 
@@ -96,30 +110,29 @@
 
 ---
 
-# Applications of FPGAs
+# Open-Source Applications
 
 * ASIC prototyping [[RISC-V]](https://www.microsemi.com/product-directory/mi-v-embedded-ecosystem/4406-risc-v-cpus)
 * Chip emulation [[MiSTer]](https://github.com/MiSTer-devel/Main_MiSTer/wiki)
 * DSP - filters, transforms, convolution, decimation, digital synthesis, etc.
   * Software-defined radio [[1]](https://www.annapmicro.com/solutions/sw-defined-radio/) [[2]](http://ebrombaugh.studionebula.com/radio/iceRadio/index.html) [[3]](https://archive.fosdem.org/2017/schedule/event/sdr_fpga/)
-  * Synthesizers [[1]](https://web.wpi.edu/Images/CMS/ECE/Veilleux_Briggs_FPGA_Digital_Music_Synthesizer.pdf) [[2]](https://hackaday.com/2011/07/10/improved-fpga-synth/)
+  * Audio Synthesizers [[1]](https://web.wpi.edu/Images/CMS/ECE/Veilleux_Briggs_FPGA_Digital_Music_Synthesizer.pdf) [[2]](https://hackaday.com/2011/07/10/improved-fpga-synth/)
 
 ---
 
-# Applications of FPGAs
-
+# Open-Source Applications
 
 * Accelerator cores
   * Cryptography - [[MD5]](https://github.com/John-Leitch/fpga-md5-cracker) [[AES]](https://opencores.org/projects/aes_core)
   * Video encode / decode [[H.264]](https://github.com/bcattle/hardh264)
   * Very high speed networking [[Intel 100G NIC]](https://www.intel.com/content/www/us/en/programmable/products/intellectual-property/ip/interface-protocols/m-alt-ll100gb-ethernet.html)
-* In general, FPGAs are great at applications requiring fixed point math, high memory bandwidth, pipelining, & parallelism
+* In general, FPGAs are great at applications that can leverage fixed-point math, high memory bandwidth, pipelining, & parallelism
 
 ---
 
 # It can't be all good, right?
 
-![center](./images/davejonesnaysay.jpg)
+![100% center](./images/davejonesnaysay.jpg)
 
 ---
 
@@ -129,19 +142,29 @@ FPGAs are ill-suited for certain tasks:
 * Floating point operations
 * Protocol handling
 * Complex rulesets
-* Sequential, unparallelizable tasks, a.k.a. [P-complete](https://en.wikipedia.org/wiki/P-complete) problems like Conway's Game of Life
+* [P-complete](https://en.wikipedia.org/wiki/P-complete) problems that are sequential & not easily parallelized (think "Conway's Game of Life")
 * Developing solutions quickly (maybe)
 
 ---
 
-# Why use one for robotics?
+# The Case for Robotics
 
-* Access to tons of flexible, reconfigurable I/O pins
+* Access to _tons_ of flexible, reconfigurable I/O pins
 * Timers & counters are trivial to impement
   * PWM for motor control (brushed, BLDC, servos)
   * Pulse decoding (encoders, IR remotes, RC controllers, SONAR)
-* Swappable, on-demand peripherals like UART, SPI, I2C, 1-wire, etc.
-* (Fixed point) PID controllers with very fast execution and consistent timing
+* ==Swappable, on-demand peripherals like UART, SPI, I2C, 1-wire, etc.==
+
+---
+
+# The Case for Robotics
+
+* PID controllers
+  * Very fast execution and consistent timing
+  * Fixed point
+* Finite state machines
+  * Line following
+  * Obstacle avoidance
 
 ---
 
@@ -159,12 +182,14 @@ FPGAs are ill-suited for certain tasks:
 ---
 
 # Design Entry
+
 * FPGA internals are _described_ using a hardware description language (HDL)
-  * Verilog (C-like, weakly-typed)
+  * **Verilog** (C-like, weakly-typed)
     * Popular in open source, consumer electronics, & the west coast
-  * VHDL (Ada-like, strongly typed)
+  * **VHDL** (Ada-like, strongly typed)
     * Popular in defense / aerospace, academia, & the east coast
 * Tools: Your favorite text editor
+
 ---
 
 # Simulation
@@ -185,23 +210,23 @@ FPGAs are ill-suited for certain tasks:
 
 # Synthesis
 
-* Convert HDL into generic logic circuits (AND / OR / NOT / etc.)
-* Maybe perform some logic optimization
-* Output saved as an intermediate file format not intended for human interaction
+* Convert Verilog into generic logic circuits. Also known as behavioral to RTL conversion. 
+* Some logic optimization happens here
+* Output saved as an intermediate file format not really intended for human interaction
 * Tools: [Yosys](http://www.clifford.at/yosys/)
   * `synth` command provides good set of defaults that can be used as basis for synthesis scripts
-    * `yosys> read_verilog mydesign.v`
-    * `yosys> synth -top mytop`
+    * `yosys> read_verilog mydesign.v # import design`
+    * `yosys> synth -top mytop # default synthesis`
 
 ---
 
 # Technology Mapping
 
-* Synthesizer output needs to be mapped to the specific hardware architecture of the FPGA (i.e. CLBs, DSP, SERDES, etc.)
+* Synthesis output needs to be mapped to the specific hardware architecture of the FPGA (i.e. CLBs, DSP, SERDES, etc.)
 * Tools: [Yosys](http://www.clifford.at/yosys/)
   * Multiple scripts are used to map the design
-    * `yosys> dfflibmap # map flip-flops to library`
-    * `yosys> abc # map logic to library`
+    * `yosys> dfflibmap # map flip-flops`
+    * `yosys> abc # map logic`
   * Supports **extensible, custom techmaps!**
   * Returns text file to be consumed by P&R tool
 
@@ -209,7 +234,7 @@ FPGAs are ill-suited for certain tasks:
 
 # Placement & Routing
 
-* Tool consumes techmapped design, tries to fit it into the FPGA, and connect everything together, and generate a **bitstream file**.
+* Tool consumes techmapped design, tries to fit it into the FPGA, and connect everything together
 * NP-hard optimization problem (think "travelling FPGA salesman") 
 * Timing constraints factor in at this step 
 * Tools:
@@ -224,13 +249,22 @@ FPGAs are ill-suited for certain tasks:
 
 ---
 
+# Bitmap Generation
+* The P&R tool generates a binary file known as the **bitstream**
+* Morally equivalent to an ELF or EXE
+* Each bit controls the configuration state and initial conditions of every CLB and interconnect in the device
+* Previously very secret sauce
+* Slowy being reverse engineered by hackers _fuzzing_ the vendor tools
+
+---
+
 # Device Flashing
 
 * Chip-specific (SPI, JTAG, or some custom protocol)
 * SRAM (fast, volatile) vs. external flash (slow, non-volatile)
 * Tools:
   * `iceprog` - ICE40 dev boards only
-  * `openocd` - Programming and debugging
+  * `openocd` - Popular tool to program & debug with
   * `flashrom` - External SPI/I2C flash
 
 ---
@@ -241,6 +275,62 @@ FPGAs are ill-suited for certain tasks:
 --- 
 
 # How to Write Less Verilog
-* Full, FPGA solutions  robot solutions are 
-* High-level synthesis
-* 
+* Code reuse has historically been challenging for FPGA designs
+* How to abstract away complexity:
+  * High-level synthesis tools
+    * **MATLAB** HDL Coder, VivadoHLS (**C/C++**), Intel HLS Compiler (**C**), Synphony (**C**), Migen (**Python**), Litex (**Python**)
+  * Configurable IP Megablocks
+    * Vendor clock & PLL configuration
+    * Schematic representation
+
+---
+
+# How to Write Less Verilog
+* Connect the FPGA to a Linux computer & leverage the strengths of both devices
+
+---
+
+# Homebrew Automation
+
+---
+
+# HBA Gateware (FPGA)
+* Small, modular peripherals that can be reused
+* Standardized interface to a simple bus
+* Up to four master peripherals
+  * E.g. Raspberry Pi interface or PID controller
+* Up to sixteen slave peripherals
+  * e.g. timer/counter, SPI, UART
+
+--- 
+
+<!-- *template: default -->
+![](./images/hba-fpga-diagram.png)
+
+---
+
+# HBA Software (Linux)
+* UNIX-like interface design - everything is ASCII and can be piped ('|') into other tools
+* Abstracts all the FPGA complexity into command and data registers for each peripheral (think I2C)
+* ==Three basic commands:==
+  * `hba_get [PERIPHERAL] [REGISTER]` - read
+  * `hba_set [PERIPHERAL] [REGISTER]` - write
+  * `hba_cat [PERIPHERAL] [REGISTER]` - open stream
+
+---
+
+# HBA Hardware
+* Romi and a custom board
+* Show pics of stuff
+
+---
+
+# Class Details
+
+* Time
+* Place
+* Cost
+
+---
+
+# Questions?
