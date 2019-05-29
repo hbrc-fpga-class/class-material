@@ -243,9 +243,8 @@ FPGAs are ill-suited for certain tasks:
 
 ---
 
-# Placement & Routing
-
-![100% center](./images/nextpnr.png)
+<!-- *page_number: false -->
+![bg original 100% center](./images/nextpnr.png)
 
 ---
 
@@ -295,8 +294,9 @@ FPGAs are ill-suited for certain tasks:
 ---
 
 # HBA Gateware (FPGA)
-* Small, modular peripherals that can be reused
-* Standardized interface to a simple bus
+* Based on ==TinyFPGA BX (Lattice ICE40)==
+* Consists of small, modular peripherals
+* Provides standardized interface to a simple bus
 * Up to four master peripherals
   * E.g. Raspberry Pi interface or PID controller
 * Up to sixteen slave peripherals
@@ -314,22 +314,73 @@ FPGAs are ill-suited for certain tasks:
 * Abstracts all the FPGA complexity into command and data registers for each peripheral (think I2C)
 * ==Three basic commands:==
   * `hba_get [PERIPHERAL] [REGISTER]` - read
-  * `hba_set [PERIPHERAL] [REGISTER]` - write
+  * `hba_set [PERIPHERAL] [REGISTER] [VALUE]` - write
   * `hba_cat [PERIPHERAL] [REGISTER]` - open stream
 
 ---
 
+# HBA Software (Linux)
+```Bash
+# Read slave configuration from FPGA
+$ SLAVE_NUM = $(hba_get 0 0)
+6
+
+# Read peripheral types for slaves on bus
+$ for i in {1..$SLAVE_NUM}; do hba_get i 0; done
+uart
+gpio
+gpio
+tc
+tc
+pid
+
+# Turn on status LED by setting register 3 for the
+# GPIO peripheral in block 2 to a value of 1 
+$ hba_set 2 3 1
+```
+---
+# HBA Software (Linux)
+
+```Bash
+# open a stream to the UART FIFO located at register 1
+# of peripheral 1
+$ hba_cat 1 1
+
+$GNGGA,132002.448,,,,,0,0,,,M,,M,,*5C
+$GPGSA,A,1,,,,,,,,,,,,,,,*1E
+$GLGSA,A,1,,,,,,,,,,,,,,,*02
+$GPGSV,1,1,00*79
+$GLGSV,1,1,00*65
+$GNRMC,132002.448,V,,,,,0.00,0.00,100417,,,N*5A
+$GNVTG,0.00,T,,M,0.00,N,0.00,K,N*2C
+```
+---
+
 # HBA Hardware
-* Romi and a custom board
-* Show pics of stuff
+* [Raspberry Pi 3 Model B+](https://www.adafruit.com/product/3775) - $45 (incl. extras)
+* [TinyFPGA BX](https://www.adafruit.com/product/4038) - $40
+* [Pololu Romi Chassis Kit](https://www.pololu.com/category/203/romi-chassis-kits) - $30
+* [Pololu Romi Encoder Pair Kit](https://www.pololu.com/product/3542) - $10
+* [Pololu Motor Driver and PDB](https://www.pololu.com/product/3543) - $20
+* [2x HC-SR04 SONAR sensors](https://www.adafruit.com/product/3942) - $10
+* [2x Pololu QTR IR reflectance sensors](https://www.pololu.com/product/4101) - $5
+* Custom PCB (power supply & interconnect) - $10?
+
+---
+
+<!-- *page_number: false -->
+<!-- *template: default -->
+![bg 99% original center](./images/tinyfpga-raspi-romi-board.png)
 
 ---
 
 # Class Details
 
-* Time
-* Place
-* Cost
+* Where: **Hacker Dojo**
+* When: **Wednesday, June 19, 2019**
+* Cost - **~$180 - $200**
+
+![center 80%](./images/hdlogo.png)
 
 ---
 
