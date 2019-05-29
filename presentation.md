@@ -190,18 +190,17 @@ FPGAs are ill-suited for certain tasks:
 
 # FPGA Workflow
 
-* Design entry
-* Simulation
-* Synthesis
-* Technology mapping
-* Placement 
-* Routing
-* Bitstream generation
-* Flashing device
+1. Design entry
+2. Simulation
+3. Synthesis
+4. Technology mapping
+5. Placement & Routing
+6. Bitstream generation
+7. Flashing device
 
 ---
 
-# Design Entry
+# 1. Design Entry
 
 * FPGA internals are _described_ using a hardware description language (HDL)
   * **Verilog** (C-like, weakly-typed)
@@ -212,7 +211,7 @@ FPGAs are ill-suited for certain tasks:
 
 ---
 
-# Simulation
+# 2. Simulation
 
 * Allows designs to be verified as individual blocks or as a full system
 * Only simulates _functionality_ of a design, not the physics. This means a design can work in simulation but fail when trying to work with real hardware
@@ -222,15 +221,15 @@ FPGAs are ill-suited for certain tasks:
 
 ---
 
-# Simulation
+# 2. Simulation
 
 ![100% center](./images/gtkwave.png)
 
 ---
 
-# Synthesis
+# 3. Synthesis
 
-* Convert Verilog into generic logic circuits. Also known as behavioral to RTL conversion. 
+* Translates Verilog & RTL schematics into generic logic circuits.
 * Some logic optimization happens here
 * Output saved as an intermediate file format not really intended for human interaction
 * Tools: [Yosys](http://www.clifford.at/yosys/)
@@ -240,7 +239,7 @@ FPGAs are ill-suited for certain tasks:
 
 ---
 
-# Technology Mapping
+# 4. Technology Mapping
 
 * Synthesis output needs to be mapped to the specific hardware architecture of the FPGA (i.e. CLBs, DSP, SERDES, etc.)
 * Tools: [Yosys](http://www.clifford.at/yosys/)
@@ -252,7 +251,7 @@ FPGAs are ill-suited for certain tasks:
 
 ---
 
-# Placement & Routing
+# 5. Placement & Routing
 
 * Tool consumes techmapped design, tries to fit it into the FPGA, and connect everything together
 * NP-hard optimization problem (think "travelling FPGA salesman") 
@@ -268,7 +267,7 @@ FPGAs are ill-suited for certain tasks:
 
 ---
 
-# Bitmap Generation
+# 6. Bitmap Generation
 * The P&R tool generates a binary file known as the **bitstream**
 * Morally equivalent to an ELF or EXE
 * Each bit controls the configuration state and initial conditions of every CLB and interconnect in the device
@@ -277,7 +276,7 @@ FPGAs are ill-suited for certain tasks:
 
 ---
 
-# Device Flashing
+# 7. Device Flashing
 
 * Chip-specific (SPI, JTAG, or some custom protocol)
 * SRAM (fast, volatile) vs. external flash (slow, non-volatile)
@@ -300,7 +299,7 @@ FPGAs are ill-suited for certain tasks:
     * **MATLAB** HDL Coder, VivadoHLS (**C/C++**), Intel HLS Compiler (**C**), Synphony (**C**), Migen (**Python**), Litex (**Python**)
   * Configurable IP Megablocks
     * Vendor clock & PLL configuration
-    * Schematic representation
+    * Common physical layers (PCIe, Ethernet, USB)
 
 ---
 
