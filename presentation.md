@@ -2,6 +2,12 @@
 <!-- template: invert -->
 <!-- page_number: true -->
 
+<!-- *page_number: false -->
+<div align=center><b> https://github.com/hbrc-fpga-class/class-material/blob/master/presentation.pdf </b></div>
+
+![275% center](./images/github-pres-qr.png)
+
+---
 
 <!-- *page_number: false -->
 <!-- *template: default -->
@@ -11,16 +17,6 @@
 
 ---
 
-# About This Talk
-
-#### Everything is on Github
-
-* https://github.com/
-   * [hbrc-fpga-class/](https://github.com/hbrc-fpga-class/)
-     * [class-material/](https://github.com/hbrc-fpga-class/class-material)
-       * [blob/master/presentation.pdf](https://github.com/hbrc-fpga-class/class-material/blob/master/presentation.pdf)
-
----
 # About This Talk
 
 ![center](./images/firehose.jpg)
@@ -56,7 +52,9 @@
 
 * Short for ==**F**ield-**P**rogrammable **G**ate **A**rray==
 * One type of **Programmable Logic Device (PLD)**
-  * Implements arbitrary digital logic equations (i.e. Boolean operations)
+  * Used to implement arbitrary digital logic equations (i.e. Boolean logic)
+    * Combinational logic (gates, stateless)
+    * Sequential logic (flip-flops, stateful)
   * Most are re-programmable
   * Some are non-volatile, while others require external memory to save configuration
 
@@ -152,7 +150,9 @@ FPGA vendors by market share:
 
 # It can't be all good, right?
 
-![100% center](./images/davejonesnaysay.jpg)
+---
+
+![bg 100% center original](./images/davejonesnaysay.jpg)
 
 ---
 
@@ -329,50 +329,43 @@ FPGAs are ill-suited for certain tasks:
 ---
 
 # HBA Software (Linux)
-* UNIX-like interface design - everything is ASCII and can be piped ('|') into other tools
-* Abstracts all the FPGA complexity into command and data registers for each peripheral (think I2C)
-* ==Three basic commands:==
-  * `hba_get [PERIPHERAL] [REGISTER]` - read
-  * `hba_set [PERIPHERAL] [REGISTER] [VALUE]` - write
-  * `hba_cat [PERIPHERAL] [REGISTER]` - open stream
+* UNIX-like interface design - everything is ASCII 
+* Interface presented as command and data resources for each peripheral (think I2C registers)
+* ==Only a few basic basic commands:==
+  * `hbaloadso <plug-in.so>`
+  * `hbaget <name|ID#> <resource_name>`
+  * `hbaset <name|ID#> <resource_name> <value>`
+  * `hbacat <name|ID#> <resource_name>`
+  * `hbalist [name]`
+ 
+---
+
+# HBA Software (Linux)
+
+Motor controller example:
+* `mode`: a character in (B)rake, (F)orward, re(V)erse, or (R)otate
+* `speed`: the desired speed in ticks/second or meters/second
+* `direction`: 0 to 100 with 0=hard left, 50=straight, 100=hard right
+* `watchdog`: Brake if no mode, speed, or dir command in this many milliseconds 
 
 ---
 
 # HBA Software (Linux)
-```Bash
-# Read slave configuration from FPGA
-$ SLAVE_NUM = $(hba_get 0 0)
-6
-
-# Read peripheral types for slaves on bus
-$ for i in {1..$SLAVE_NUM}; do hba_get i 0; done
-uart
-gpio
-gpio
-tc
-tc
-pid
-
-# Turn on status LED by setting register 3 for the
-# GPIO peripheral in block 2 to a value of 1 
-$ hba_set 2 3 1
-```
----
-# HBA Software (Linux)
 
 ```Bash
-# open a stream to the UART FIFO located at register 1
-# of peripheral 1
-$ hba_cat 1 1
-
-$GNGGA,132002.448,,,,,0,0,,,M,,M,,*5C
-$GPGSA,A,1,,,,,,,,,,,,,,,*1E
-$GLGSA,A,1,,,,,,,,,,,,,,,*02
-$GPGSV,1,1,00*79
-$GLGSV,1,1,00*65
-$GNRMC,132002.448,V,,,,,0.00,0.00,100417,,,N*5A
-$GNVTG,0.00,T,,M,0.00,N,0.00,K,N*2C
+hbaset motors mode b    # brake
+hbaset motors speed 50
+hbaset motors dir 50
+hbaset motors mode f    # and off we go...
+while true
+do
+  sleep 2
+  hbaset motors dir 100
+  sleep 0.75
+  hbaset motors dir 50
+done
 ```
+
 ---
 
 # HBA Hardware
@@ -407,16 +400,15 @@ $GNVTG,0.00,T,,M,0.00,N,0.00,K,N*2C
 * When: **Wednesday, June 19, 2019 - 7:00pm**
 * Cost - **$200** (we'll refund you if materials end up being less)
 
-![center 80%](./images/hdlogo.png)
+![center 75%](./images/hdlogo.png)
 
 ---
 
 # Questions?
 
-<br><br>
 #### All HBA material is on GitHub:
 
-* https://github.com/
-   * [hbrc-fpga-class/](https://github.com/hbrc-fpga-class/)
-     * [class-material/](https://github.com/hbrc-fpga-class/class-material)
-       * [blob/master/presentation.pdf](https://github.com/hbrc-fpga-class/class-material/blob/master/presentation.pdf)
+* [https://github.com/hbrc-fpga-class/class-material/blob/master/presentation.pdf](https://github.com/hbrc-fpga-class/class-material/blob/master/presentation.pdf)
+
+
+![180% center](./images/github-pres-qr.png)
