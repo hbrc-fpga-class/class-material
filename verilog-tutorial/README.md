@@ -6,7 +6,7 @@
     * Overview of the Goals for the Class
         * Presenting a Pi/FPGA platform for Robotics
             * Raspberry Pi for high level programming
-            * FPGA low level peripherals talk to hardware
+            * FPGA peripherals for real-time hardware control
             * Library of peripherals available
         * Learn how to build and program using existing peripherals
         * Learn how to build custom FPGA peripheral in Verilog
