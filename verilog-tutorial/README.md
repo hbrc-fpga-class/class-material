@@ -1,6 +1,54 @@
 # FPGA Robotics Class Outline
 
-## Class 1 : Verilog Tutorial
+## Class 1 : Introduction and Tools Setup
+
+1. Introduction
+    * Overview of the Goals for the Class
+        * Presenting a Pi/FPGA platform for Robotics
+            * Raspberry Pi for high level programming
+            * FPGA low level peripherals talk to hardware
+            * Library of peripherals available
+        * Learn how to build and program using existing peripherals
+        * Learn how to build custom FPGA peripheral in Verilog
+    * Today
+        * Install required development tools
+        * Test installation
+        * Simple Blinky Verilog
+        * Preview to the HomeBrew Automation Platform
+2. Tool Installation
+    * Virtual Machine Image?
+    * Download HBA repos for github
+    * Build Blink Verilog from source and download to board
+3. HBA Preview
+    * High-level diagram with both Pi and FPGA parts
+    * FPGA architecture of a bus and peripherals on the bus.
+    * FPGA Peripherals
+    * Raspberry Pi to FPGA interface
+    * Software Architecture Diagram
+        * HBA Daemon
+    * Demos of the HBA system in action
+
+## Class 2 : HomeBrew Automation Platform
+
+1. Bob presents
+    * HBA architecture as it relates to an FPGA
+    * Download, build, install HBA
+    * Bash demo of HBA with a gamepad
+    * Present and review a simple Python program to use gamepad
+    * Quick review of plug-in API
+    * Have participant load FPGA peripheral plug-ins
+    * Bash demo of FPGA based robot peripherals
+
+2. Brandon presents
+    * Architecture of logic in the FPGA
+    * Serial-to-FPGA inputs, outputs, and internal logic
+    * HBA bus (as a module interface)
+    * GPIO peripheral
+        * Design and code review
+        * Simple demo using raw read/write
+        * Quick design and code review of HBA plug-in
+
+## Class 3 : Verilog Tutorial
 
 1. Introduction
     * Main Focus on Synthesis for FPGAs
@@ -145,7 +193,7 @@
     * Write testbench for program #3.
     * Write testbench for program #4.
 
-## Class 2 : Basic Robotic Circuits
+## Class 4 : Basic Robotic Circuits
 
 1. Edge Detection Circuit
     * Program #5:
@@ -161,29 +209,5 @@
 4. Quadrature Encoder Circuit
     * Program #7:
         * Display quarature counts on LEDs
-
-## Class 3 : HomeBrew Automation
-
-1. HomeBrew Automation Introduction
-    * High level code on Raspberry Pi
-    * Low level interface on FPGA
-2. FPGA Peripherals
-3. Raspberry Pi to FPGA interface
-    * Serial to FPGA Bridge
-    * Serial Protocol
-    * HBA Bus
-4. HBA Daemon
-    * Empty Event-Driven Daemon
-    * Plugin interface
-        * Each FPGA peripheral has its own plugin
-    * Simple publish/subscribe mechanism
-5. Build FPGA system
-    * Auto build system
-        * specify desired peripherals in YAML file
-        * Generates FPGA bitstream
-6. Start HBA Daemon
-    * Install FPGA peripheral plugins
-7. Write TableTop Challenge 2 application
-    * Program in Python
-
+5. Write a HBA peripheral
 
