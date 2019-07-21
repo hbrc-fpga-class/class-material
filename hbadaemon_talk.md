@@ -17,8 +17,7 @@
 ---
 
 # System Architecture
-![100% center](./images/hba_sysarch1.svg)
-
+![center](./images/hba_sysarch1.svg)
 * hbadaemon
   * Event driven multiplexer
   * Reformats and routes message between apps and devices
@@ -52,7 +51,7 @@
 ---
 
 # Hands-on Demo of hbadaemon 
-
+'''
 hbalist
 hbaloadso gamepad.so
 hbalist
@@ -64,11 +63,11 @@ hbacat gamepad state
 hbaset gamepad filter dbffff
 hbacat gamepad state
 ^C
-
+'''
 ---
 
 # Hands-on HBA Application using Bash
-
+'''
 hbaset hba_motor mode ff
 hbacat gamepad state | 
 while read l r
@@ -79,11 +78,11 @@ do
    hbaset hba_motor motor0 motl
    hbaset hba_motor motor1 motr
 done
-
+'''
 ---
 
 # Python program to control the robot
-
+'''
 #!/usr/bin/env python
 import socket
 import sys
@@ -130,7 +129,7 @@ except KeyboardInterrupt:
 except socket.error:
     print "Couldn't connect to hbadaemon"
     sys.exit()
-
+'''
 ---
 
 # The Case for hbadaemone and its FPGA peripherals
