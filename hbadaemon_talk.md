@@ -53,14 +53,12 @@
 # Hands-on Demo of hbadaemon 
 ```
 hbalist
-hbaloadso gamepad.so
-hbalist
 hbalist gamepad
 hbaset gamepad period 0 
 hbacat gamepad state
 ^C
-# output just L/R trigger controls
-hbaset gamepad filter dbffff
+# output just L/R joystick controls
+hbaset gamepad filter edffff
 hbacat gamepad state
 ^C
 ```
@@ -86,11 +84,11 @@ done
 #!/usr/bin/env python
 import socket
 import sys
-``` This program opens two sockets to the hbadaemon, one
+''' This program opens two sockets to the hbadaemon, one
     to listen for gamepad events and one to update the
     leds.  This code uses a blocking read but a select()
     implementation would work too.
-```
+'''
 
 # Send a set command to the fpga and wait for the reponse prompt
 def set_cmd(sock, set_str):
