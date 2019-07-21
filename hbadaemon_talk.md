@@ -66,15 +66,24 @@ hbacat gamepad state
 
 # Hands-on HBA Application using Bash
 ```
+#!/bin/bash
+
 hbaset hba_motor mode ff
-hbacat gamepad state | 
-while read l r
+hbaset gamepad filter edffff
+unbuffer hbacat gamepad state |
+while read tm l r
 do
-   motl=$(( ($l + 32768) / 654 ))
-   motr=$(( ($r + 32768) / 654 ))
-   echo $motl $motr
-   hbaset hba_motor motor0 $motl
-   hbaset hba_motor motor1 $motr
+   motl=$(( 50 - ( ($l + 32768) / 654) ))
+   motr=$(( 50 - ( ($r + 32768) / 654) ))
+   echo  $l $r  $motl $motr
+   if (( $motl >= 0 ))
+   then
+      hbaset hba_motor motor0 $motl
+   fi
+   if (( $motr >= 0 ))
+   then
+      hbaset hba_motor motor1 $motr
+   fi
 done
 ```
 ---
