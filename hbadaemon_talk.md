@@ -30,6 +30,20 @@
 
 ---
 
+# Hands-on Demo of hbadaemon 
+```
+hbalist
+hbalist gamepad
+hbaset gamepad period 0 
+hbacat gamepad state
+^C
+# output just L/R joystick controls
+hbaset gamepad filter edffff
+hbacat gamepad state
+^C
+```
+---
+
 # hbadaemon API
 
 * hbadeamon commands
@@ -50,20 +64,6 @@
 
 ---
 
-# Hands-on Demo of hbadaemon 
-```
-hbalist
-hbalist gamepad
-hbaset gamepad period 0 
-hbacat gamepad state
-^C
-# output just L/R joystick controls
-hbaset gamepad filter edffff
-hbacat gamepad state
-^C
-```
----
-
 # Hands-on HBA Application using Bash
 ```
 hbaset hba_motor mode ff
@@ -73,8 +73,8 @@ do
    motl=$(( ($l + 32768) / 654 ))
    motr=$(( ($r + 32768) / 654 ))
    echo $motl $motr
-   hbaset hba_motor motor0 motl
-   hbaset hba_motor motor1 motr
+   hbaset hba_motor motor0 $motl
+   hbaset hba_motor motor1 $motr
 done
 ```
 ---
