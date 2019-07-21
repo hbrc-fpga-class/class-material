@@ -130,7 +130,7 @@ except socket.error:
 ```
 ---
 
-# The Case for hbadaemone and its FPGA peripherals
+# The Case for hbadaemon and FPGA peripherals
 
 * Peripherals can get close to 100% code reuse.
   * Swap FPGA peripherals in and out of your design
