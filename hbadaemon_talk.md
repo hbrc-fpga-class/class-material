@@ -51,7 +51,7 @@
 ---
 
 # Hands-on Demo of hbadaemon 
-'''
+```
 hbalist
 hbaloadso gamepad.so
 hbalist
@@ -63,11 +63,11 @@ hbacat gamepad state
 hbaset gamepad filter dbffff
 hbacat gamepad state
 ^C
-'''
+```
 ---
 
 # Hands-on HBA Application using Bash
-'''
+```
 hbaset hba_motor mode ff
 hbacat gamepad state | 
 while read l r
@@ -78,19 +78,19 @@ do
    hbaset hba_motor motor0 motl
    hbaset hba_motor motor1 motr
 done
-'''
+```
 ---
 
 # Python program to control the robot
-'''
+```
 #!/usr/bin/env python
 import socket
 import sys
-''' This program opens two sockets to the hbadaemon, one
+``` This program opens two sockets to the hbadaemon, one
     to listen for gamepad events and one to update the
     leds.  This code uses a blocking read but a select()
     implementation would work too.
-'''
+```
 
 # Send a set command to the fpga and wait for the reponse prompt
 def set_cmd(sock, set_str):
@@ -129,7 +129,7 @@ except KeyboardInterrupt:
 except socket.error:
     print "Couldn't connect to hbadaemon"
     sys.exit()
-'''
+```
 ---
 
 # The Case for hbadaemone and its FPGA peripherals
