@@ -53,3 +53,6 @@ interests you in FPGA's is a reasonable thing to do.
 
 * Mike Wimble: H08 (Full Kit)
 
+* Brandon Blodget: H01 (Full Kit)
+
+
