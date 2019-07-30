@@ -15,10 +15,10 @@ been written.  The order of the documentation is pretty random:
 * [Syllabus](syllabus.md):
   The class syllabus.
 
-* [Teaser presentation (.pdf)](teaser_presentation.pdf):
+* [Teaser presentation (.pdf)](presentation.pdf):
   Slides from HBRC teaser talk. Generated using [Marp](https://github.com/marp-team/marp).
 
-* [Teaser Presentation (.md)](teaser_presentation.md):
+* [Teaser Presentation (.md)](presentation.md):
   Markdown source Markdown for PDF.  Honestly not all that pretty to look at.
 
 * [Teaser Presentation Images](images):
