@@ -33,7 +33,7 @@ been written.  The order of the documentation is pretty random:
 * [Class Members](class_members.md):
   The FPGA class member list.
 
-* [Peripherials](https://github.com/hbrc-fpga-class/peripherals/README.md):
+* [Peripherials](https://github.com/hbrc-fpga-class/peripherals):
   The HBA peripherals documentation.
   
 
