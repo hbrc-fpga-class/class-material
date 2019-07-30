@@ -15,13 +15,24 @@ been written.  The order of the documentation is pretty random:
 * [Syllabus](syllabus.md):
   The class syllabus.
 
+* [Teaser presentation (.pdf)](teaser_presentation.pdf):
+  Slides from HBRC teaser talk. Generated using [Marp](https://github.com/marp-team/marp).
+
+* [Teaser Presentation (.md)](teaser_presentation.md):
+  Markdown source Markdown for PDF.  Honestly not all that pretty to look at.
+
+* [Teaser Presentation Images](images):
+  Images for presentation
+
+* [Internet Issues](wifi.md):
+  How to connect to your robot via internet.
+
+* [Verilog Tutorial Outline](verilog_tutorial/README.md):
+  Directory structure with sequential lessons teaching the basics of Verilog
+
+* [Class Members](class_members.md):
+  The FPGA class member list.
 
 
-* verilog-tutorial/ - Directory structure with sequential lessons teaching the basics of Verilog
-* presentation.pdf  - Slides from HBRC teaser talk. Generated using [Marp](https://github.com/marp-team/marp).
-* presentation.md   - Source Markdown for PDF. Honestly not all that pretty to look at.
-* images/           - Images for presentation
-* [Class Members](class_members.md): The FPGA class member list.
-* [Internet Issues](wifi.md): How to connect to your robot via internet.
 
 

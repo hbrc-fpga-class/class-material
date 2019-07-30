@@ -23,13 +23,13 @@ You can install these repositories on your laptop by using `git`.
 
 For Linux, the following will work:
 
-        cd # somewhere
-	mkdir hbrc-fpga-class
-	cd hbrc-fpga-class
-        git clone https://https://github.com/hbrc-fpga-class/hardware.git
-	git clone github.com/hbrc-fpga-class/class-material.git
-	git clone https://github.com/hbrc-fpga-class/peripherals.git
-	git clone https://github.com/hbrc-fpga-class/toolchain-utils.git
+     cd # somewhere
+     mkdir hbrc-fpga-class
+     cd hbrc-fpga-class
+     git clone https://https://github.com/hbrc-fpga-class/hardware.git
+     git clone github.com/hbrc-fpga-class/class-material.git
+     git clone https://github.com/hbrc-fpga-class/peripherals.git
+     git clone https://github.com/hbrc-fpga-class/toolchain-utils.git
 
 For MacOS/Windows, somebody else will have to provide instructions.
 
