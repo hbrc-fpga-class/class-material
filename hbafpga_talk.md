@@ -34,7 +34,19 @@
 
 # Serial Interface
 
-TODO
+The Raspberry Pi uses the serial interface to read and write to the
+HBA Peripheral registers.  So the Raspberry Pi is a Master on the HBA Bus.
+
+* Serial Interface (from perspective of rasp-pi)
+  * __rpi_txd__  : Transmit data to the FPGA.
+  * __rpi_rxd__  : Receive data from the FPGA
+  * __rpi_intr__ : Interrupt from FPGA. Indicates FPGA has data to be read.
+
+![center](./images/HBA_Address.png)
+
+* Addressing Peripherals is 12 bits and is split into two parts.
+  * The upper 4 bits select the desired peripheral slot.  There are 16 possible slots.
+  * The lower 8 bits select the desired peripheral register.  There are 256 possible registers.
 
 * Simple demo using raw read/write
 
