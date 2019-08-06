@@ -141,6 +141,7 @@ More information about the HBA Bus.
 
 * [hba_basicio documentation](https://github.com/hbrc-fpga-class/peripherals/tree/master/hba_basicio)
 * [hba_basicio driver readme](https://github.com/hbrc-fpga-class/peripherals/blob/master/hba_basicio/sw/readme.txt)
+* [hba_basicio verilog source](https://github.com/hbrc-fpga-class/peripherals/blob/master/hba_basicio/hba_basicio.v)
 
 ---
 
