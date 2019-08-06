@@ -54,15 +54,30 @@ HBA Peripheral registers.  So the Raspberry Pi is a Master on the HBA Bus.
 
 ![center](./images/Write_Protocol.png)
 * Command Byte:
-  * 7   - Read(1) or Write(0) operation
-  * 6:4 - Add 1 to this value to get num to transfer.  So (1-8) possible.
+  * 7   - Write(0) operation
+  * 6:4 - Number of Registers to write minus 1.  So (1-8) possible.
   * 3:0 - Peripheral Slot Address
 * Starting Peripheral Register Address. Auto increments if multiple data.
 * Data0 .. DataN : The data to write.
 * ACK/NACK : From FPGA.  ACK indicates successful write of data.
 
+---
 
-* Simple demo using raw read/write
+# Read Protocol
+
+![center](./images/Read_Protocol.png)
+* Command Byte:
+  * 7   - Read(1) operation
+  * 6:4 - Number of Registers to read minus 1.  So (1-8) possible.
+  * 3:0 - Peripheral Slot Address
+* Starting Peripheral Register Address. Auto increments if multiple data.
+* Echo Cmd : The Pi sends a dummy byte.  The FPGA echos the cmd byte.
+* Echo RegAddr : The Pi sends a dummy byte.  The FPGA echos the RegAddr byte.
+* Data0 .. DataN : The Pi sends dummy byte for each reg read.  The FPGA sends reg value.
+
+---
+
+# Simple demo using raw read/write
 
 ---
 
