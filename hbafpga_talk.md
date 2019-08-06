@@ -110,16 +110,38 @@ hbaset serial_fpga rawout 81 01 ff ff ff
 
 ```
 
+---
+
+# HBA Bus Slave Interface
+
+* __hba_clk (input)__ : This is the bus clock.  The HBA Bus signals are valid on the
+  rising edge of this clock. 
+* __hba_reset (input)__ : This signal indicates the peripheral should be reset.
+* __hba_rnw (input)__ : 1=Read from register. 0=Write to register.
+* __hba_select (input)__ : Indicates a transfer in progress.
+* __hba_abus[11:0] (input)__ : The address bus.
+    * __bits[11:8]__ : These 4 bits are the peripheral address. Max number of
+      peripherals 16.
+    * __bits[7:0]__ : These 8 bits are the register address. Max 256 reg per
+      peripheral.
+* __hba_dbus[7:0] (input)__ : Data sent to the slave peripherals.
+* __hba_xferack_slave (output)__ : Acknowledge transfer requested.  Asserted when request has been
+  completed. Must be zero when inactive.
+* __hba_dbus_slave[7:0] (output)__ : Data from the slave.  Must be zero when inactive.
+* __hba_interrupt_slave (output)__ : Each slave has a dedicated signal back to
+  a interrupt controller. If not used tie to zero.
+* [HBA Bus Documentation](https://github.com/hbrc-fpga-class/peripherals/blob/master/doc/hba_bus.md) 
+More information about the HBA Bus.
 
 ---
 
-# HBA Bus Interface
+# hba_basicio Peripheral 
 
 ![center](./images/hba_basicio_block.png)
 
 ---
 
-# hba_basicio Peripheral Verilog Code
+# hba_basicio Peripheral Verilog Interface
 
 TODO
 
