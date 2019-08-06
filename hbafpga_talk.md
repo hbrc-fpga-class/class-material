@@ -293,6 +293,11 @@ endmodule
 
 # hba_basicio HBA Pluggin in C
 
-TODO
+* In each peripherals directory there is a directory called __sw__ that
+  holds the HBA pluggin that is written in C.
+* [HBA Daemon Design Doc](https://github.com/bob-linuxtoys/eedd/blob/master/Docs/design.txt)
+* [EEDD documentation](http://www.linuxtoys.org/eedd/eedd.html)
+* [hba_basicio HBA C pluggin](https://github.com/hbrc-fpga-class/peripherals/blob/master/hba_basicio/sw/hba_basicio.c)
+
 
 ---
