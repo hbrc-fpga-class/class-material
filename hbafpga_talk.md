@@ -10,8 +10,8 @@
 * Serial Demo Using raw read/write
 * HBA Peripheral Interface
 * HBA BasicIO Peripheral
-  * Review peripheral's Verilog
-  * Review peripheral's HBA plugin
+  * Verilog code walk through
+  * HBA plugin code walk through
 
 ---
 
@@ -241,6 +241,51 @@ hba_reg_bank #
     .slv_wr_mask(4'b0010),    // 0010, means reg1 is writeable.
     .slv_autoclr_mask(4'b0000)    // No autoclear
 );
+
+```
+
+---
+
+# hba_basicio verilog, Main process
+
+``` verilog
+/*
+*****************************
+* Main
+*****************************
+*/
+
+// Register the button inputs
+reg [DBUS_WIDTH-1:0] reg_button_in2;
+reg [DBUS_WIDTH-1:0] reg_old_led0;
+reg [DBUS_WIDTH-1:0] reg_old_led1;
+always @ (posedge hba_clk)
+begin
+    if (hba_reset) begin
+        reg_button_in <= 0;
+        reg_button_in2 <= 0;
+        slv_wr_en <= 0;
+        slave_interrupt <= 0;
+    end else begin
+        // Defaults
+        slv_wr_en <= 0;     // default
+        slave_interrupt <= 0;
+
+        // reg latest and last
+        reg_button_in <= basicio_button;
+        reg_button_in2 <= reg_button_in;
+
+        // Check for a button change
+        if (reg_button_in != reg_button_in2) begin
+            slv_wr_en <= 1;
+            if (reg_intr_en) begin
+                slave_interrupt <= 1;
+            end
+        end
+    end
+end
+
+endmodule
 
 ```
 
