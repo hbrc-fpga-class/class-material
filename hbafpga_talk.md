@@ -49,6 +49,8 @@ HBA Peripheral registers.  So the Raspberry Pi is a Master on the HBA Bus.
 
 * __Note__: To receive a byte from the FPGA the Pi must send a dummy byte.
 * The serial interface is full duplex.
+* [Serial Interface Documentation](https://github.com/hbrc-fpga-class/peripherals/blob/master/doc/serial_interface.md) 
+More information about the serial interface.
 
 ---
 
