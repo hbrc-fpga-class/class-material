@@ -48,6 +48,20 @@ HBA Peripheral registers.  So the Raspberry Pi is a Master on the HBA Bus.
   * The upper 4 bits select the desired peripheral slot.  There are 16 possible slots.
   * The lower 8 bits select the desired peripheral register.  There are 256 possible registers.
 
+---
+
+# Write Protocol
+
+![center](./images/Write_Protocol.png)
+* Command Byte:
+  * 7   - Read(1) or Write(0) operation
+  * 6:4 - Add 1 to this value to get num to transfer.  So (1-8) possible.
+  * 3:0 - Peripheral Slot Address
+* Starting Peripheral Register Address. Auto increments if multiple data.
+* Data0 .. DataN : The data to write.
+* ACK/NACK : From FPGA.  ACK indicates successful write of data.
+
+
 * Simple demo using raw read/write
 
 ---
