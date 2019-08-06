@@ -146,7 +146,7 @@ More information about the HBA Bus.
 
 # hba_basicio Peripheral Verilog Interface
 
-```
+``` verilog
 module hba_basicio #
 (
     // Defaults
