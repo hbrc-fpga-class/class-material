@@ -182,6 +182,69 @@ module hba_basicio #
 
 ---
 
+# hba_basicio verilog, Instatiate Register Bank
+
+``` verilog
+/*
+*****************************
+* Signals and Assignments
+*****************************
+*/
+
+// Define the bank of registers
+wire [DBUS_WIDTH-1:0] reg_led;      // reg0: Led register
+wire [DBUS_WIDTH-1:0] reg_intr_en;  // reg2: Interrupt Enable Register
+reg [DBUS_WIDTH-1:0] reg_button_in;  // reg1: button value
+
+reg slv_wr_en;
+
+assign basicio_led = reg_led;
+
+/*
+*****************************
+* Instantiation
+*****************************
+*/
+
+hba_reg_bank #
+(
+    .DBUS_WIDTH(DBUS_WIDTH),
+    .PERIPH_ADDR_WIDTH(PERIPH_ADDR_WIDTH),
+    .REG_ADDR_WIDTH(REG_ADDR_WIDTH),
+    .PERIPH_ADDR(PERIPH_ADDR)
+) hba_reg_bank_inst
+(
+    // HBA Bus Slave Interface
+    .hba_clk(hba_clk),
+    .hba_reset(hba_reset),
+    .hba_rnw(hba_rnw),         // 1=Read from register. 0=Write to register.
+    .hba_select(hba_select),      // Transfer in progress.
+    .hba_abus(hba_abus), // The input address bus.
+    .hba_dbus(hba_dbus),  // The input data bus.
+
+    .hba_dbus_slave(hba_dbus_slave),   // The output data bus.
+    .hba_xferack_slave(hba_xferack_slave),     // Acknowledge transfer requested. 
+                                    // Asserted when request has been completed. 
+                                    // Must be zero when inactive.
+
+    // Access to registgers
+    .slv_reg0(reg_led),
+    // XXX .slv_reg1(),
+    .slv_reg2(reg_intr_en),
+    
+    // writeable registers
+    // XXX .slv_reg0_in(),
+    .slv_reg1_in(reg_button_in),
+
+    .slv_wr_en(slv_wr_en),   // Assert to set slv_reg? <= slv_reg?_in
+    .slv_wr_mask(4'b0010),    // 0010, means reg1 is writeable.
+    .slv_autoclr_mask(4'b0000)    // No autoclear
+);
+
+```
+
+---
+
 # hba_basicio HBA Pluggin in C
 
 TODO
