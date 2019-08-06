@@ -113,7 +113,7 @@ hbaset serial_fpga rawout 81 01 ff ff ff
 
 # HBA Bus Interface
 
-TODO
+![center](./images/hba_basicio_block.png)
 
 ---
 
