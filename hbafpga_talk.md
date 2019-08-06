@@ -48,6 +48,9 @@ HBA Peripheral registers.  So the Raspberry Pi is a Master on the HBA Bus.
   * The upper 4 bits select the desired peripheral slot.  There are 16 possible slots.
   * The lower 8 bits select the desired peripheral register.  There are 256 possible registers.
 
+* __Note__: To receive a byte from the FPGA the Pi must send a dummy byte.
+* The serial interface is full duplex.
+
 ---
 
 # Write Protocol
@@ -59,7 +62,7 @@ HBA Peripheral registers.  So the Raspberry Pi is a Master on the HBA Bus.
   * 3:0 - Peripheral Slot Address
 * Starting Peripheral Register Address. Auto increments if multiple data.
 * Data0 .. DataN : The data to write.
-* ACK/NACK : From FPGA.  ACK indicates successful write of data.
+* ACK/NACK : Pi sends dummy byte. FPGA sends ACK, indicates successful write of data.
 
 ---
 
@@ -78,6 +81,34 @@ HBA Peripheral registers.  So the Raspberry Pi is a Master on the HBA Bus.
 ---
 
 # Simple demo using raw read/write
+
+* Usually use HBA resources for accessing peripherals
+* However it is possible to echo all the byte received from the FPGA
+* Useful for development and debug
+* In one robot terminal type:
+```
+hbacat serial_fpga rawin
+```
+
+* It is also possible to send raw bytes to the FPGA
+* Example 1 write 7 to leds
+  * Slot 1 peripheral, Reg0 to the value 07
+  * This should be the hba_basicio led register
+* In another robot terminal type:
+```
+hbaset serial_fpga rawout 01 00 07 ff
+
+```
+
+* Example 2 read button value
+  * Slot 1 peripheral, Reg1 (read)
+  * This is the hba_basicio button_in register
+* Type
+```
+hbaset serial_fpga rawout 81 01 ff ff ff
+
+```
+
 
 ---
 
