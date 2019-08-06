@@ -258,6 +258,7 @@ hba_reg_bank #
 // Register the button inputs
 reg [DBUS_WIDTH-1:0] reg_button_in2;
 
+/* Generate slave_interrupt if buttons have changed state. */
 always @ (posedge hba_clk)
 begin
     if (hba_reset) begin
