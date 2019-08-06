@@ -15,6 +15,10 @@ been written.  The order of the documentation is pretty random:
 * [Syllabus](syllabus.md):
   The class syllabus.
 
+* Class 2 Presentations, Aug 7, 2019.
+  * [HBA Daemon presentation (.md)](hbadaemon_talk.md)
+  * [HBA FPGA Architecture presentation (.md)](hbafpga_talk.md)
+
 * [Teaser presentation (.pdf)](presentation.pdf):
   Slides from HBRC teaser talk. Generated using [Marp](https://github.com/marp-team/marp).
 
