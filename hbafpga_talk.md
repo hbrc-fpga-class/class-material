@@ -257,8 +257,7 @@ hba_reg_bank #
 
 // Register the button inputs
 reg [DBUS_WIDTH-1:0] reg_button_in2;
-reg [DBUS_WIDTH-1:0] reg_old_led0;
-reg [DBUS_WIDTH-1:0] reg_old_led1;
+
 always @ (posedge hba_clk)
 begin
     if (hba_reset) begin
