@@ -7,11 +7,10 @@
 
 * FPGA HBA Architecture
 * Serial Pi to FPGA Interface
+* Serial Demo Using raw read/write
 * HBA Peripheral Interface
 * HBA BasicIO Peripheral
   * Review peripheral's Verilog
-  * Simple Demo Using raw read/write
-  * Demo using driver: set, get, cat
   * Review peripheral's HBA plugin
 
 ---
@@ -80,7 +79,7 @@ HBA Peripheral registers.  So the Raspberry Pi is a Master on the HBA Bus.
 
 ---
 
-# Simple demo using raw read/write
+# Serial demo using raw read/write
 
 * Usually use HBA resources for accessing peripherals
 * However it is possible to echo all the byte received from the FPGA
