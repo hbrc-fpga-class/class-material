@@ -31,7 +31,7 @@ been written.  The order of the documentation is pretty random:
 * [Internet Issues](wifi.md):
   How to connect to your robot via internet.
 
-* [Verilog Tutorial Outline](verilog_tutorial/README.md):
+* [Verilog Tutorial Outline](verilog-tutorial/README.md):
   Directory structure with sequential lessons teaching the basics of Verilog
 
 * [Class Members](class_members.md):
