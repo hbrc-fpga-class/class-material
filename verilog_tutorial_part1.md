@@ -59,7 +59,7 @@
 
 ---
 
-# 0 Hello World
+# [0_Hello_World](https://github.com/hbrc-fpga-class/peripherals/tree/master/verilog_tutorial/0_Hello_World)
 
 Login to your robot using ssh and perform the following steps:
 
