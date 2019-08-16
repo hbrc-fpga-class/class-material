@@ -62,9 +62,12 @@
 # 0 Hello World
 
 Login to your robot using ssh and perform the following steps:
-* cd ~/hbrc_fpga_class/peripherals
-* source setup.bash
-* cd verilog_tutorial/0_Hello_World
+
+```
+> cd ~/hbrc_fpga_class/peripherals
+> source setup.bash
+> cd verilog_tutorial/0_Hello_World
+```
 
 The bash script adds the program __prog_fpga.py__ to your path.
 We use this program to download fpga bitstreams to the
