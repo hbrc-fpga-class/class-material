@@ -114,7 +114,7 @@ command line. But it just starts and then quits.
 Running __iverilog__ in this way is a very quick way to do a
 syntax check of your verilog module.
 
-__Exercise__ : Try adding a bogus like to hello0.v and re-run
+__Exercise__ : Try adding a bogus line to hello0.v and re-run
 the __iverilog hello0.v__ command.  What happens?
 
 
