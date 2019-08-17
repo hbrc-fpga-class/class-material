@@ -76,8 +76,6 @@ The bash script adds the program __prog_fpga.py__ to your path.
 We use this program to download fpga bitstreams to the
 TinyFPGA board of the Raspberry Pi SPI pins. More about this later.
 
----
-
 # hello0.v
 
 ```verilog
@@ -119,8 +117,6 @@ syntax check of your verilog module.
 
 __Exercise__ : Try adding a bogus line to hello0.v and re-run
 the __iverilog hello0.v__ command.  What happens?
-
----
 
 # hello1.v
 
@@ -166,7 +162,7 @@ executable via
 Hello World1
 ```
 
-Add cleanup all the generated executables via
+Cleanup all the generated executables via
 
 ```
 > make clean
@@ -218,8 +214,89 @@ This module introduces a couple of new concepts:
 * __$finish__ : Indicates that the simulation should finish/exit.
 
 
+Try out this code via:
+```
+> make hello3
+> ./hello3
+```
 
+---
 
+# [1_Input_Output](https://github.com/hbrc-fpga-class/peripherals/tree/master/verilog_tutorial/1_Input_Output)
+
+In this section we learn how to specify module inputs and outputs.
+In these demos we connect the user buttons to leds on the robot.
+We generate a bitstream and download it to the TinyFPGA board.
+
+# button_led1.v
+
+```verilog
+/* 0_Input_Output.  Buttons directly connected to led. */
+
+module button_led1
+(
+    input wire button0,
+    input wire button1,
+    output wire [7:0] led
+);
+
+assign led[0] = ~button0;
+assign led[1] = ~button1;
+
+assign led[7:2] = 0;
+
+endmodule
+```
+
+New concepts:
+* Between the module name and the __;__ we insert parentheses in which we
+  specify our input and output ports.
+* We specify the output __led__ to be a bus of 8 wires, with the most significant
+  bit being 7 and the least significant bit being 0.
+* __assign__ : We assign value to our output bus __led__ using the assign
+  statement.
+
+In this example the module button_led1 is going to be our top level module.  So
+the __button0__, __button1__, and __led[7:0]__ ports need to be assigned to
+package pins on the FPGA.  This is done in the file pins.pcf
+
+pins.pcf
+```
+set_io button0    J4  # PIN_27
+set_io button1    D8  # PIN_16
+
+set_io led[0]       A9  # PIN_18
+set_io led[1]       B8  # PIN_19
+set_io led[2]       J3  # PIN_26
+set_io led[3]       A8  # PIN_20
+set_io led[4]       J9  # PIN_29
+set_io led[5]       B7  # PIN_21
+set_io led[6]       E8  # PIN_30
+set_io led[7]       A7  # PIN_22
+```
+
+# Generating button_led1 bitstream
+
+First let using __iverilog__ to verify we don't have any syntax errors:
+
+## Syntax Check
+
+```
+> iverilog button_led1.v
+```
+
+## Synthesis
+
+Next we will use the [Yosys Open Synthesis Suite](http://www.clifford.at/yosys/).
+This will break the design into the target technology primitives.
+In our case that is Lattice iCE40 FPGA primitives.
+The output will be a [BLIF](http://www.cs.columbia.edu/~cs6861/sis/blif/index.html) file.
+
+```
+> yosys -p 'synth_ice40 -top button_led1 -blif button_led1.blif' button_led1.v
+```
+
+## Place and Route
 
 
 
