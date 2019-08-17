@@ -120,4 +120,108 @@ syntax check of your verilog module.
 __Exercise__ : Try adding a bogus line to hello0.v and re-run
 the __iverilog hello0.v__ command.  What happens?
 
+---
+
+# hello1.v
+
+```verilog
+module hello1;
+initial $display("Hello World1");
+endmodule
+```
+The above code is in the file hello1.v.  It is the classic "hello world"
+program.
+
+Two new items are introduced:
+1. __initial__ : This keyword means start here at time 0.  To have more than
+one statement in an initial block, you need to add a "begin/end" block.  An
+example of this later.
+2. __$display__ : Is a _system task_ that acts a lot like _printf_ in C.  In
+   Verilog words that start with a __$__ are special commands called system
+   tasks. In general they are not synthesizable (often safely ignored by the
+   synthesis tools).  But useful for debug and testbenches.
+
+Try:
+
+```
+> iverilog hello1.v
+> ./a.out
+Hello World1
+```
+
+iverilog has a '-o' flag that renames the output executable (much like gcc).
+
+```
+> iverilog -o hello1 hello1.v
+> ./hello1
+Hello World1
+```
+
+There is also a Makefile in this directory so you can make the hello1
+executable via
+
+```
+> make hello1
+> ./hello1
+Hello World1
+```
+
+Add cleanup all the generated executables via
+
+```
+> make clean
+```
+
+# hello2.v
+
+```verilog
+module hello2;
+initial 
+begin
+    $display("Hello World2");
+    $display("Goodbye");
+end
+endmodule
+```
+
+This module is basically the same as hello1.v but it shows how to create an
+__initial__ block with multiple statements, using __begin__ and __end__.
+
+Verilog uses __begin__ and __end__ to delineate blocks.  This is in contrast
+to C which uses curly braces __{__ and __}__
+
+# hello3.v
+
+```verilog
+module hello3;
+always
+begin
+    #1      // delay one simulation step (unitless by default)
+    $display("Hello World3: ",$time);
+    if ($time == 100) begin
+        $finish;
+    end
+end
+endmodule
+```
+
+This module introduces a couple of new concepts:
+* __always__ : This keyword is similar to __initial__.  It says start here at
+  time 0, and when you get to the end of the block, go back to the beginning of
+  the block.  Basically it describes an infinite loop.
+* __#1__ :  The __#__ followed by a number, indicates a delay in simulation
+  steps.  By default the step size is unitless.  However you can assign units
+  and percision using the __`timescale__ directive.  This is mostly used for
+  testbench code.  
+* __$time__ : Holds the integer part of the simulation time.
+* __if__ : The __if__ statement is much like the C if statement.
+* __$finish__ : Indicates that the simulation should finish/exit.
+
+
+
+
+
+
+
+
 
