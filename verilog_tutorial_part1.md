@@ -258,9 +258,14 @@ New concepts:
 
 In this example the module button_led1 is going to be our top level module.  So
 the __button0__, __button1__, and __led[7:0]__ ports need to be assigned to
-package pins on the FPGA.  This is done in the file pins.pcf
+package pins on the FPGA.  We can figure out the mapping between the ports
+and package pins using these files:
+* [Romi Adapter Board Pcb pdf](https://github.com/hbrc-fpga-class/hardware/blob/rev-A/tinyfpga-raspi-romi-board/outputs/tinyfpga-raspi-romi-board.pdf)
+* [TinyFPGA pins top](https://cdn-shop.adafruit.com/1200x900/4038-01.jpg)
+* [TinyFPGA pins bottom](https://cdn-shop.adafruit.com/1200x900/4038-00.jpg)
 
-pins.pcf
+This is done in the file pins.pcf:
+
 ```
 set_io button0    J4  # PIN_27
 set_io button1    D8  # PIN_16
@@ -277,7 +282,7 @@ set_io led[7]       A7  # PIN_22
 
 # Generating button_led1 bitstream
 
-First let using __iverilog__ to verify we don't have any syntax errors:
+First let use __iverilog__ to verify we don't have any syntax errors:
 
 ## Syntax Check
 
