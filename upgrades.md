@@ -48,7 +48,7 @@ The Power Bank we have tried is this one...
 We strapped it to the back of the Raspberry Pi using these 
 [velco straps](https://www.amazon.com/dp/B00O9VKVFK).
 
-
+![Robot with Power Bank](images/power_bank.jpg)
 
 
 
