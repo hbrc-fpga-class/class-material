@@ -19,6 +19,9 @@ been written.  The order of the documentation is pretty random:
   * [HBA Daemon presentation (.md)](hbadaemon_talk.md)
   * [HBA FPGA Architecture presentation (.md)](hbafpga_talk.md) [(.pdf)](hbafpga_talk_slides.pdf)
 
+* Class 3 Presentation, Aug 21, 2019.
+  * [Verilog Tutorial Part 1 (.md)](verilog_tutorial_part1.md)
+
 * [Teaser presentation (.pdf)](presentation.pdf):
   Slides from HBRC teaser talk. Generated using [Marp](https://github.com/marp-team/marp).
 
@@ -39,6 +42,9 @@ been written.  The order of the documentation is pretty random:
 
 * [Peripherials](https://github.com/hbrc-fpga-class/peripherals):
   The HBA peripherals documentation.
-  
+
+* [Robot Upgrades](upgrades.md)
+A list of optional items that can add or improve functionality of your robot.
+
 
 
