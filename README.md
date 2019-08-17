@@ -43,7 +43,7 @@ been written.  The order of the documentation is pretty random:
 * [Peripherials](https://github.com/hbrc-fpga-class/peripherals):
   The HBA peripherals documentation.
 
-* [Robot Upgrades](upgrades.md)
+* [Robot Upgrades](upgrades.md):
 A list of optional items that can add or improve functionality of your robot.
 
 

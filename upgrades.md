@@ -1,6 +1,7 @@
 # Robot Upgrades
 
-This page lists parts or assecesories you can buy to upgrade the class robot.
+This page lists __optional__ parts or assecesories you can 
+buy to upgrade the class robot.
 
 # QTRX-HD-01RC Reflectance Sensor
 
