@@ -325,8 +325,11 @@ timing constraints up front and have it work on meeting those constraints.
 
 You can however run the IceStorm tool __icetime__ to give you a timing report.
 
-The clock in our design is running at 50mhz.  So we want the timing estimate
-to be 50mhz or faster.
+We don't currently have a clock in our design, so the timing estimate
+is not really needed yet.
+
+In our main HBA project bitstream the clock is running at 50mhz.
+So in general we want the timing estimate to be faster than 50mhz.
 
 ```
 > icetime -d lp8k -mtr button_led.rpt button_led.asc
