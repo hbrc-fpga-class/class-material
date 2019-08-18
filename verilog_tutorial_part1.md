@@ -515,7 +515,7 @@ You can build the bistream for this module and program the TinyFPGA in one shot
 via:
 
 ```
-> make button_led_reg1.v
+> make button_led_reg1
 ```
 
 ---
