@@ -222,18 +222,18 @@ Try out this code via:
 
 ---
 
-# [1_Input_Output](https://github.com/hbrc-fpga-class/peripherals/tree/master/verilog_tutorial/1_Input_Output)
+# [1_Button_Led](https://github.com/hbrc-fpga-class/peripherals/tree/master/verilog_tutorial/1_Button_Led)
 
 In this section we learn how to specify module inputs and outputs.
 In these demos we connect the user buttons to leds on the robot.
 We generate a bitstream and download it to the TinyFPGA board.
 
-# button_led1.v
+# button_led.v
 
 ```verilog
-/* 0_Input_Output.  Buttons directly connected to led. */
+/* Buttons directly connected to leds. */
 
-module button_led1
+module button_led
 (
     input wire button0,
     input wire button1,
@@ -254,9 +254,9 @@ New concepts:
 * We specify the output __led__ to be a bus of 8 wires, with the most significant
   bit being 7 and the least significant bit being 0.
 * __assign__ : We assign value to our output bus __led__ using the assign
-  statement.
+  statement.  __Note__ assignments are outside of intial or always blocks.
 
-In this example the module button_led1 is going to be our top level module.  So
+In this example the module button_led is going to be our top level module.  So
 the __button0__, __button1__, and __led[7:0]__ ports need to be assigned to
 package pins on the FPGA.  We can figure out the mapping between the ports
 and package pins using these files:
@@ -280,14 +280,14 @@ set_io led[6]       E8  # PIN_30
 set_io led[7]       A7  # PIN_22
 ```
 
-# Generating button_led1 bitstream
+# Generating button_led bitstream
 
 First let use __iverilog__ to verify we don't have any syntax errors:
 
 ## Syntax Check
 
 ```
-> iverilog button_led1.v
+> iverilog button_led.v
 ```
 
 ## Synthesis
@@ -298,7 +298,7 @@ In our case that is Lattice iCE40 FPGA primitives.
 The output will be a [BLIF](http://www.cs.columbia.edu/~cs6861/sis/blif/index.html) file.
 
 ```
-> yosys -p 'synth_ice40 -top button_led1 -blif button_led1.blif' button_led1.v
+> yosys -p 'synth_ice40 -top button_led -blif button_led.blif' button_led.v
 ```
 
 ## Place and Route
@@ -315,7 +315,7 @@ represents the FPGA configuration file. The IceStorm ASCII format has blocks of 
 and 1 for the config bits for each tile in the chip.
 
 ```
-> arachne-pnr -s 7 -d 8k -P cm81 -o button_led1.asc -p pins.pcf button_led1.blif
+> arachne-pnr -s 7 -d 8k -P cm81 -o button_led.asc -p pins.pcf button_led.blif
 ```
 
 ## Check timing
@@ -329,7 +329,7 @@ The clock in our design is running at 50mhz.  So we want the timing estimate
 to be 50mhz or faster.
 
 ```
-> icetime -d lp8k -mtr button_led1.rpt button_led1.asc
+> icetime -d lp8k -mtr button_led.rpt button_led.asc
 // Reading input .asc file..
 // Reading 8k chipdb file..
 // Creating timing netlist..
@@ -343,7 +343,7 @@ The tool __icepack__ converts from the ASCII bitstream to the
 binary bitstream.
 
 ```
-> icepack button_led1.asc button_led1.bin
+> icepack button_led.asc button_led.bin
 ```
 
 ## Program the TinyFPGA
@@ -369,7 +369,7 @@ your path you can program the bitstream with the following... It will prompt you
 when to press the CRESET button.
 
 ```
-> prog_fpga.py button_led1.bin
+> prog_fpga.py button_led.bin
 ```
 
 Now you can press the two user buttons and turn on two leds!!
@@ -377,6 +377,82 @@ Now you can press the two user buttons and turn on two leds!!
 If you want the default bitstream back you can press the CRESET button
 again and it will load it from the SPI flash!!
 
+## The Makefile
 
+In the *1_Button_Led* directory there is a Makefile.  So you can run all the step above via
 
+```
+> make
+```
+
+And program the bistream with
+
+```
+> make prog
+```
+
+## Exercise : A Verilog Gotcha!
+
+By default Verilog does not require you define a wire before you use it.
+This can be an issue if you have a typo in a wire name.
+
+Update line 11 in button_led.v to the following:
+```
+assign ld = ~button1;
+```
+
+Now run our syntax check again:
+
+```
+> iverilog button_led.v
+```
+
+No errors!!
+
+Now update button_led.v so it looks like this:
+
+```verilog
+/* Buttons directly connected to led. */
+
+// Force error when implicit net has no type.
+`default_nettype none
+
+module button_led
+(
+    input wire button0,
+    input wire button1,
+    output wire [7:0] led
+);
+
+assign led[0] = ~button0;
+// XXX assign led[1] = ~button1;
+assign ld = ~button1;
+
+assign led[7:2] = 0;
+
+endmodule
+```
+
+Now run our syntax check again:
+
+```
+> iverilog button_led.v
+button_led.v:15: error: Net ld is not defined in this context.
+1 error(s) during elaboration.
+```
+
+That is better.
+
+The __`default_nettype none__ directive says if a net has not been explicitly defined
+give its nettype the value of __none__, which causes an error if it is used.
+
+In general I think it is a good idea to add to the top of your verilog files.
+
+```
+// Force error when implicit net has no type.
+`default_nettype none
+```
+
+The one place this can get you in trouble is if you are using modules from a 3rd
+party that takes advantage of the default behavior.
 
