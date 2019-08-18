@@ -511,4 +511,70 @@ Here are some difference to notice:
   __led[1:0]__ signals will be implemented as D flip flops.  The __led[7:2]__
   signals probably will be optimized out since the value never changes.
 
+You can build the bistream for this module and program the TinyFPGA in one shot
+via:
+
+```
+> make button_led_reg1.v
+```
+
+---
+
+# Operators
+
+## Assignment Operators
+
+* __=__
+    * blocking assignement
+    * used for continuous assignments (rule of thumb for synthesizable)
+    * used with the __assign__ statement
+* __<=__
+    * non-blocking assignment
+    * used for procedural assignments (rule of thumb for synthesizable)
+    * used in __always__ blocks
+
+In practice blocking vs non-blocking is more for the simulator than
+for the synthesis tools.  Remember Verilog started as a simulation
+tool.  In button_led_reg1.v if you replace the __<=__ with __=__ it will
+synthesize the same.
+
+## Arithmetic Operators
+
+* __+__  : Addition
+* __-__  : Subtraction
+* __*__  : Multiplication
+* __/__  : Division
+* __%__  : Modulus
+* __**__ : Power
+
+## Bitwise Operators
+
+* __|__   : OR
+* __&__   : AND
+* __^__   : XOR
+* __<<__  : Shift left
+* __>>__  : Shift right
+* __<<<__ : Signed shift left
+* __>>>__ : Signed shift right
+
+## Logical Operators
+
+* __||__   : Logical OR
+* __&&__   : Logical AND
+
+## Negation Operators
+
+* __~__   : Bitwise negation
+* __!__   : Logical negation
+
+## Reduction Operators
+
+* __|__   : Reduction OR
+* __&__   : Reduction AND
+* __^__   : Reduction XOR (parity)
+
+## Ternary Operator
+
+* __led[0] = (button1==1) ? 1 : 0;__
+
 
