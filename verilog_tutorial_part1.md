@@ -456,3 +456,56 @@ In general I think it is a good idea to add to the top of your verilog files.
 The one place this can get you in trouble is if you are using modules from a 3rd
 party that takes advantage of the default behavior.
 
+---
+
+# [2_Button_Led_Reg](https://github.com/hbrc-fpga-class/peripherals/tree/master/verilog_tutorial/2_Button_Led_Reg)
+
+In this section we learn about the __reg__ keyword.
+
+## button_led_reg1.v
+
+```verilog
+/* Buttons connected to leds via registers. */
+
+// Force error when implicit net has no type.
+`default_nettype none
+
+module button_led_reg1
+(
+    input wire clk_16mhz,
+    input wire button0,
+    input wire button1,
+    output reg [7:0] led
+);
+
+
+always @ (posedge clk_16mhz)
+begin
+    led[0] <= ~button0;
+    led[1] <= ~button1;
+    led[7:2] <= 0;
+end
+
+endmodule
+```
+
+This module behaves pretty much the same as the 1_Button_Led module.
+Here are some difference to notice:
+* We add another input port called __clk_16mhz__.  It has been added to
+  _pins.pcf_ as well.
+* Output port __led__ is specified as a __reg__ instead of a __wire__.  The
+  __assign__ statement we used in the previous example, only works with
+  __wire__.  If we set values in an __always__ (or __initial__) block we must
+  use a __reg__ on the left hand side of the assignment.
+* After the __always__ there is __@ (posedge clk_16mhz)__.  The __@__ operator
+  is called the _change operator_.  And the signals in the parenthesis are
+  called the sensitivity list. Remember the __always__ block is an infinite
+  loop, but now it will only enter the next iteration of the loop on the
+  positive edge of clk_16mhz.
+* The assignment operator in the __always__ block is __<=__.  This is the __non
+  blocking assignment operator__.  This means that the three assignment
+  operations happens simultaneously on the rising edge of clk_16mhz.  The
+  __led[1:0]__ signals will be implemented as D flip flops.  The __led[7:2]__
+  signals probably will be optimized out since the value never changes.
+
+
