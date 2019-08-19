@@ -75,9 +75,12 @@ Here is a summary of the steps:
 3. Map a Network Drive
     * Go to "This PC" and select "Map network drive" icon.
     * Select a Drive letter
-    * Folder: \\sshfs\ubuntu@192.168.1.162
+    * Folder: \\sshfs\ubuntu@192.168.XX.XXX
+        * Replace 192.168.XX.XXX with your robot's IP address.
     * Don't check: reconnect at sign-in
     * Do check: Connect using different credentials
+
+
 
 Remember to disconnect the Network Drive before powering off the robot.
 
