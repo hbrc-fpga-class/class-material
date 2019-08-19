@@ -1,13 +1,11 @@
 # SSHFS
 
-sshfs allows you to mount a remote file system over ssh.
-See we 
+SSHFS allows you to mount a remote file system over ssh.
+Since we log in to our robots over SSH we can use
+sshfs to mount our robot to the local file system on
+our host computer.
 
-This document explains howto setup sshfs on your computer
-so you can mount the hbrc_fpga_class directory on the 
-class robot into your file system.
-
-This is useful for it allows you use your computers
+This is useful for it allows you use your computer's
 GUI tools to edit or view files that are on the robot.
 For example you can use your favorite GUI editor
 to edit files on the robot instead of being limited
