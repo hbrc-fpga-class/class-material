@@ -1,5 +1,8 @@
 # SSHFS
 
+sshfs allows you to mount a remote file system over ssh.
+See we 
+
 This document explains howto setup sshfs on your computer
 so you can mount the hbrc_fpga_class directory on the 
 class robot into your file system.
@@ -56,5 +59,36 @@ Before shutting down the robot, unmount the sshfs via:
 
 ## Windows 10
 
-todo...
+Instruction for getting this working under Windows 10.
+
+[SSHFS Windows](https://codeyarns.com/2018/05/03/how-to-mount-remote-directory-on-windows-using-sshfs-win/)
+
+Here is a summary of the steps:
+
+1. Install WinFSP from [here](https://github.com/billziss-gh/winfsp/releases).  This link takes you
+   to a releases github page.  The latest version at the time of this writing is **WinFsp 2019.3
+   B2**.  Scroll down the page and click on the **Assets** triangle. Then download the **msi**
+   installer.
+
+2. Install SSHFS-Win form [here](https://github.com/billziss-gh/sshfs-win/releases). This link takes
+   you to a releases github page.  The latest version at the time of this writing is **SSH-Win 3.5
+   BETA**.  Scroll down the page and click on the **Assets** triangle. Then download the appropriate
+   **msi** installer.
+3. Map a Network Drive
+    * Go to "This PC" and select "Map network drive" icon.
+    * Select a Drive letter
+    * Folder: \\sshfs\ubuntu@192.168.1.162
+    * Don't check: reconnect at sign-in
+    * Do check: Connect using different credentials
+
+Remember to disconnect the Network Drive before powering off the robot.
+
+That's it!
+
+## Mac OS X
+
+Not tested but there is some information about setting it up at:
+
+[Mac OS X SSHFS](https://www.digitalocean.com/community/tutorials/how-to-use-sshfs-to-mount-remote-file-systems-over-ssh)
+
 
