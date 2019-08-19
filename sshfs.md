@@ -39,7 +39,7 @@ Make sure the robot is turned on and booted, then type:
 > sudo sshfs ubuntu@h01.local:hbrc_fpga_class h01.local -o allow_other
 ```
 
-Now you should be able the robot's files through that mount point.
+Now you should be able to browse the robot's files through that mount point.
 
 ![sshfs explorer](images/sshfs_explorer.png)
 
