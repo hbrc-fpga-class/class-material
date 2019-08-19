@@ -46,5 +46,8 @@ been written.  The order of the documentation is pretty random:
 * [Robot Upgrades](upgrades.md):
 A list of optional items that can add or improve functionality of your robot.
 
+* [SSHFS](sshfs.md):
+Mount the robot's files into your host computer's file system.
+
 
 
