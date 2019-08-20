@@ -92,6 +92,12 @@ using the keywords __module__ and __endmodule__.  You build circuits in
 Verilog by connecting modules together.  Much like schematic symbols in
 a schematic editor.
 
+Verilog is not white-space sensitive.  So you can format it how you like.
+
+Verilog ends every statement with a semicolon.  Well, almost every statement.
+Verilog keywords that end statements themselves don't need semicolons.
+Examples:  __end__, __endmodule__ and __endcase__.
+
 Notice the C style comment.  Verilog can look a bit C like but...
 
 __Important__ : In Verilog (and other HDLs) you are not programming.  You
@@ -511,11 +517,51 @@ Here are some difference to notice:
   __led[1:0]__ signals will be implemented as D flip flops.  The __led[7:2]__
   signals probably will be optimized out since the value never changes.
 
-You can build the bistream for this module and program the TinyFPGA in one shot
+You can build the bitstream for this module and program the TinyFPGA in one shot
 via:
 
 ```
 > make button_led_reg1
+```
+
+## button_led_reg2.v
+
+```verilog
+/* Buttons connected to leds via combintorial path. */
+
+// Force error when implicit net has no type.
+`default_nettype none
+
+module button_led_reg2
+(
+    input wire clk_16mhz,
+    input wire button0,
+    input wire button1,
+    output reg [7:0] led
+);
+
+
+always @ (*)
+begin
+    led[0] <= ~button0;
+    led[1] <= ~button1;
+    led[7:2] <= 0;
+end
+
+endmodule
+```
+
+Notice the __always @ (*)__ statement.  Here we replaced the __posedge clk_16mhz__
+with a __*__.  The asterisk means we are sensitive to changes on any signal.
+This is a way to generate combinatorial logic with no registers.  So even
+though the led was defined with the __reg__ keyword, no registers will
+be created in this module.  However since __led__ is set in an 
+__always__ block it must be of type register.
+
+You can build this bitstream and download via:
+
+```
+> make button_led_reg2
 ```
 
 ---
@@ -567,14 +613,53 @@ synthesize the same.
 * __~__   : Bitwise negation
 * __!__   : Logical negation
 
+
+## Ternary Operator
+
+* __led[0] = (button1==1) ? 1 : 0;__
+
+## Numbers
+
+Number have the following format in Verilog:
+
+[number of bits]'[radix][value]
+
+Here are the radix specifiers
+* 'b 'B     // Binary
+* 'd 'D     // Decimal (default)
+* 'h 'H     // Hexadecimal
+* 'o 'O     // Octal
+
+In the __value__ part you can insert underscores to improve readability.
+
+Here is an example of assigning numbers to wires;
+
+```verilog
+wire [7:0] in1;
+wire [7:0] in2;
+wire [7:0] in3;
+wire [9:0] sum;
+
+assign in1 = 8'h0c;         // hex number
+assign in2 = 8'b1010_1010;  // binary number
+assign in3 = 249;           // default decimal number
+
+assign sum = in1 + in2 + in3;
+```
+
 ## Reduction Operators
 
 * __|__   : Reduction OR
 * __&__   : Reduction AND
 * __^__   : Reduction XOR (parity)
 
-## Ternary Operator
+Example:
+```verilog
+wire [9:0] sum;
+wire parity
 
-* __led[0] = (button1==1) ? 1 : 0;__
+assign parity = ^sum; // xor all sum's bits
+```
+
 
 
