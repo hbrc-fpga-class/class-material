@@ -647,6 +647,16 @@ assign in3 = 249;           // default decimal number
 assign sum = in1 + in2 + in3;
 ```
 
+The current versions of Verilog also allow you to make assignments
+when you define the wire.  So the above could be written as
+
+```verilog
+wire [7:0] in1 = 8'h0c;         // hex number
+wire [7:0] in2 = 8'b1010_1010;  // binary number
+wire [7:0] in3 = 249;           // default decimal number
+wire [9:0] sum = in1 + in2 + in3;
+```
+
 ## Reduction Operators
 
 * __|__   : Reduction OR
