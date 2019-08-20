@@ -671,5 +671,109 @@ wire parity;
 assign parity = ^sum; // xor all sum's bits
 ```
 
+## Exercise
+
+Update __button_led_reg2.v__ so that pressing either button will
+turn on led[0] and led[1]
+
+Test your change, by generating a new bitstream and downloading
+to the TinyFPGA
+
+```
+> make button_led_reg2
+```
+
+---
+
+# [3_Led_Counter](https://github.com/hbrc-fpga-class/peripherals/tree/master/verilog_tutorial/3_Led_Counter)
+
+## led_counter1.v
+
+```verilog
+/* Count on the leds. */
+
+// Force error when implicit net has no type.
+`default_nettype none
+
+module led_counter1
+(
+    input wire clk_16mhz,
+    input wire button0,
+    input wire button1,
+    output reg [7:0] led
+);
+
+// internal registers
+reg inc_led;
+reg [23:0] fast_count;
+
+// A constant
+localparam QUARTER_SEC = 4_000_000;
+
+// Generate a pulse to inc_leds every
+// quarter of a second.
+always @ (posedge clk_16mhz)
+begin
+    inc_led <= 0;       // default
+    fast_count <= fast_count + 1;
+    if (fast_count == QUARTER_SEC) begin
+        inc_led <= 1;
+        fast_count <= 0;
+    end
+end
+
+// Increment the led count.
+always @ (posedge clk_16mhz)
+begin
+    if (inc_led) begin
+        led <= led + 1;
+    end
+end
+
+endmodule
+```
+
+Let us look at the new pieces of the led_counter1 module.
+
+1. Defining internal registers.
+
+```verilog
+// internal registers
+reg inc_led;
+reg [23:0] fast_count;
+```
+
+Here we define two registers that we will use in the always blocks.
+The first **inc_led** will be a pulse that will increment our led count.
+The second **fast_count** will be used to count clk_16mhz clock ticks.
+When we reach the desired **fast_count** value we will assert **inc_led**.
+
+Note.  We never explicitly initialize these registers.  A simulator probably
+would be unhappy with this, by reporting unknown values.  But on the iCE40
+part all of the registers on the chip come up with zero values on power-on.
+
+If we want to initialize these registers for the simulator, we could
+add the following after the registers have been defined.
+
+```verilog
+// initialize registers for the simulator
+initial
+begin
+    inc_led     <= 0;
+    fast_count  <= 0;
+    led         <= 0;
+end
+```
+
+2. Define a constant
+
+```verilog
+// A constant
+localparam QUARTER_SEC = 4_000_000;
+```
+
+It is good practice to define constants instead of using _magic numbers_
+in your code.
+
 
 
