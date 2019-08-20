@@ -3,20 +3,31 @@
 
 ---
 
-# Today
+# Home Brew Automation Daemon (hbadaemon)
 
-* System Architecture
-* hbadaemon API
-* Hands-on Demo of hbadaemon using a gamepad
-* Hands-on HBA Application using Bash
-* hbadaemon Protocol
-* Python program to read the gamepad
-* Minimal Python program to control the robot
-* Next steps and Q&A
+* Linux program that gives high level interface to your hardware
+* Loadable user-space device drivers (aka plug-ins)
+* Works with Bash, Python, Java, C, ....
+* Based on eedd, the empty event-driven daemon
+* eedd has drivers for game controllers, GPS, IRC, and VL53L0X
+* hbadaemon has drivers for FPGA base PWM, quadrature, ultrasonic
+distance, GPIO, and proximity sensors.
+
+
+* eedd home page
+  - http://www.linuxtoys.org/eedd/eedd.html
+* How to write a new user space driver (plug-in)
+  - http://www.linuxtoys.org/eedd/plug-ins.html
+* Description of hbadaemon/eedd internal architecture
+  - https://github.com/bob-linuxtoys/eedd/blob/master/Docs/design.txt
+* Description of plug-in writer's API
+  - https://github.com/bob-linuxtoys/eedd/blob/master/plug-ins/include/eedd.h
+* Contact
+  - bob@demandperipherals.com
 
 ---
 
-# System Architecture
+# hbadaemon System Architecture
 ![center](./images/hba_sysarch1.svg)
 * hbadaemon
   * Event driven multiplexer
@@ -152,3 +163,4 @@ except socket.error:
   * Later: It's up to us.  What peripheral will you create?
 
 ---
+
