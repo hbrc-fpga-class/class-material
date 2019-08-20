@@ -666,7 +666,7 @@ wire [9:0] sum = in1 + in2 + in3;
 Example:
 ```verilog
 wire [9:0] sum;
-wire parity
+wire parity;
 
 assign parity = ^sum; // xor all sum's bits
 ```
