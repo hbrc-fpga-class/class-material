@@ -566,6 +566,15 @@ You can build this bitstream and download via:
 
 ---
 
+# Value Set
+
+Verilog has 4-state logic.
+
+* 0 : Logic 0 or false
+* 1 : Logic 1 or true
+* x : Unknown logic value (sim)
+* z : High impedance of tristate gate (sim)
+
 # Operators
 
 ## Assignment Operators
@@ -613,6 +622,16 @@ synthesize the same.
 * __~__   : Bitwise negation
 * __!__   : Logical negation
 
+## Equality Operators
+
+* __==__    : Equivalence (used for synthesizable)
+* __===__   : Literal Equivalence (used in testbench 'x', 'z')
+* __!=__    : Inequality (used for synthesizable)
+* __!==__   : Literal Inequality (used in testbench 'x', 'z')
+* __<__     : Less than
+* __>__     : Greater than
+* __<=__    : Less than or equal to
+* __>=__    : Greater than or equal to
 
 ## Ternary Operator
 
@@ -733,6 +752,13 @@ end
 endmodule
 ```
 
+You can try out this code by changing to the 3_Led_Counter directory and
+generating a bitstream and programming the TinyFPGA via
+
+```
+> make led_counter1
+```
+
 Let us look at the new pieces of the led_counter1 module.
 
 1. Defining internal registers.
@@ -767,6 +793,8 @@ end
 
 2. Define a constant
 
+## Constants
+
 ```verilog
 // A constant
 localparam QUARTER_SEC = 4_000_000;
@@ -775,5 +803,95 @@ localparam QUARTER_SEC = 4_000_000;
 It is good practice to define constants instead of using _magic numbers_
 in your code.
 
+There is at least 3 ways to define constants in Verilog:
 
+   * Text Macro using Verilog Preprocessor.  Like C Verilog has a
+   preprocessor.
+
+```verilog
+`define QUARTER_SEC 4_000_000
+...
+if (fast_count == `QUARTER_SEC) begin
+...
+```
+
+   * __parameter__ keyword.  __parameter__s can be used to create
+parameterized modules.  These values can be changed at compile
+time by the parent module.
+
+```verilog
+parameter QUARTER_SEC = 4_000_0000;
+```
+
+   * __localparam__ keyword.  Like __parameter__ but scope is local to
+the module.  The parent module can't update the value at compile time.
+
+```verilog
+localparam QUARTER_SEC = 4_000_0000;
+```
+
+3. Generate a pulse.
+
+```verilog
+always @ (posedge clk_16mhz)
+begin
+    inc_led <= 0;       // default
+    fast_count <= fast_count + 1;
+    if (fast_count == QUARTER_SEC) begin
+        inc_led <= 1;
+        fast_count <= 0;
+    end
+end
+```
+
+The code above shows how to generate a one clock cycle pulse,
+every QUARTER_SEC.
+
+One thing to notice is that **inc_led** and **fast_count** get set more than
+once in the __always__ block.  In theory if **fast_count == QUARTER_SEC** then
+**inc_led** should be set to both 0 and 1.  Verilog resolves this by the rule:
+
+**RULE: The last nonblocking assignment to the same register wins!**
+
+This rule is used a lot, to set default values, that get changed under some
+condition.
+
+The above code is equivalent to this:
+
+```verilog
+always @ (posedge clk_16mhz)
+begin
+    if (fast_count == QUARTER_SEC) begin
+        inc_led <= 1;
+        fast_count <= 0;
+    end else begin
+        inc_led <= 0;       // default
+        fast_count <= fast_count + 1;
+    end
+end
+```
+
+4. Increment the led count.
+
+```verilog
+always @ (posedge clk_16mhz)
+begin
+    if (inc_led) begin
+        led <= led + 1;
+    end
+end
+```
+
+This shows how we can have multiple __always__ blocks in a module.
+There is a rule however.
+
+**RULE: A register can only be set in one always block.  However
+it can be used as a value in more than one.**
+
+In the  example above **inc_led** is set in the first __always__ block
+and used as a value in the second.
+
+Also notice that in the __if__ statement there is no equality operator.
+The equality operator returns __1__ for true, and __0__ for false.
+Since __inc_led__ is one bit it basically acts like a boolean.
 
