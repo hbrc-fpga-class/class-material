@@ -11,7 +11,7 @@
     * Module
     * Initial, always blocks
     * $display
-* 1 Button Led Verilog
+* 1 Button Led
     * Input/output ports
     * Bus widths
     * Pin placement file
@@ -21,10 +21,10 @@
 * 2 Button Led Registers
     * Adding clock
     * Sensitivity list
-    * Combitorial always block
+    * Combinatorial always block
     * Operators
     * Numbers
-    * Excercise
+    * Exercise
 * 3 Led Counter
     * Internal registers
     * Initialize reg in initial block
@@ -268,7 +268,7 @@ New concepts:
 * We specify the output __led__ to be a bus of 8 wires, with the most significant
   bit being 7 and the least significant bit being 0.
 * __assign__ : We assign value to our output bus __led__ using the assign
-  statement.  __Note__ assignments are outside of intial or always blocks.
+  statement.  __Note__ assignments are outside of initial or always blocks.
 
 In this example the module button_led is going to be our top level module.  So
 the __button0__, __button1__, and __led[7:0]__ ports need to be assigned to
@@ -296,7 +296,7 @@ set_io led[7]       A7  # PIN_22
 
 # Generating button_led bitstream
 
-First let use __iverilog__ to verify we don't have any syntax errors:
+First lets use __iverilog__ to verify we don't have any syntax errors:
 
 ## Syntax Check
 
@@ -402,7 +402,7 @@ In the *1_Button_Led* directory there is a Makefile.  So you can run all the ste
 > make
 ```
 
-And program the bistream with
+And program the bitstream with
 
 ```
 > make prog
@@ -507,7 +507,7 @@ endmodule
 ```
 
 This module behaves pretty much the same as the 1_Button_Led module.
-Here are some difference to notice:
+Here are some differences to notice:
 * We add another input port called __clk_16mhz__.  It has been added to
   _pins.pcf_ as well.
 * Output port __led__ is specified as a __reg__ instead of a __wire__.  The
@@ -535,7 +535,7 @@ via:
 ## button_led_reg2.v
 
 ```verilog
-/* Buttons connected to leds via combintorial path. */
+/* Buttons connected to leds via combinatorial path. */
 
 // Force error when implicit net has no type.
 `default_nettype none
@@ -588,7 +588,7 @@ Verilog has 4-state logic.
 ## Assignment Operators
 
 * __=__
-    * blocking assignement
+    * blocking assignment
     * used for continuous assignments (rule of thumb for synthesizable)
     * used with the __assign__ statement
 * __<=__
@@ -596,7 +596,7 @@ Verilog has 4-state logic.
     * used for procedural assignments (rule of thumb for synthesizable)
     * used in __always__ blocks
 
-In practice blocking vs non-blocking is more for the simulator than
+In practice blocking versus non-blocking is more for the simulator than
 for the synthesis tools.  Remember Verilog started as a simulation
 tool.  In button_led_reg1.v if you replace the __<=__ with __=__ it will
 synthesize the same.
@@ -812,7 +812,7 @@ localparam QUARTER_SEC = 4_000_000;
 It is good practice to define constants instead of using _magic numbers_
 in your code.
 
-There is at least 3 ways to define constants in Verilog:
+There are at least 3 ways to define constants in Verilog:
 
    * Text Macro using Verilog Preprocessor.  Like C Verilog has a
    preprocessor.
@@ -863,7 +863,7 @@ once in the __always__ block.  In theory if **fast_count == QUARTER_SEC** then
 **RULE: The last nonblocking assignment to the same register wins!**
 
 This rule is used a lot, to set default values, that get changed under some
-condition.
+conditions.
 
 The above code is equivalent to this:
 
@@ -1037,7 +1037,7 @@ begin
 end
 ```
 
-For an aynchronous reset we add the reset signal to 
+For an asynchronous reset we add the reset signal to 
 the sensitivity list.  The always block now gets triggered
 if the clock goes high, or the reset.
 
