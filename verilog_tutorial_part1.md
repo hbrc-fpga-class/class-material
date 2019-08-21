@@ -2,32 +2,40 @@
 <!-- template: invert -->
 
 ---
-# Status
-
-This material is still in active development...
 
 # Overview
 
 * Goals
 * Verilog History
-* Modules and Ports
-* Values and Types
-* Program #1: Button to Led
-* Program #2: Pi GPIO to Led
-* Operators
-* Exercise #1: Two buttons, either lights led
-* Bus Notation
-* Numbers
-* Program #3: Displays 0x55 to the 8 leds
-* Exercise #2: Button press display 0xAA
-* Break.  
-* Procedural Blocks
-* Program #3: Counter on leds
-* Exercise #3: Button press count down.
-* Program #4: Capture button edge, count up and down
-* State Machine
-* Program #5: Cyclone like eye on LEDs
-* Excercise #4: Speedup or Slowdown animation using buttons.
+* 0 Hello World Verilog
+    * Module
+    * Initial, always blocks
+    * $display
+* 1 Button Led Verilog
+    * Input/output ports
+    * Bus widths
+    * Pin placement file
+    * Implementation Steps
+    * Program FPGA
+    * Exercise
+* 2 Button Led Registers
+    * Adding clock
+    * Sensitivity list
+    * Combitorial always block
+    * Operators
+    * Numbers
+    * Excercise
+* 3 Led Counter
+    * Internal registers
+    * Initialize reg in initial block
+    * Constants
+    * Generate a pulse
+    * Rules
+    * Exercises
+    * Resets
+    * Shift Registers
+    * Concatenation
+    * Final Challenge
 
 ---
 
@@ -778,11 +786,12 @@ Note.  We never explicitly initialize these registers.  A simulator probably
 would be unhappy with this, by reporting unknown values.  But on the iCE40
 part all of the registers on the chip come up with zero values on power-on.
 
-If we want to initialize these registers for the simulator, we could
-add the following after the registers have been defined.
+If we want to initialize these registers for the simulator,
+or if we have registers that we want to initialize to non-zero values,
+we can add an initial block like this:
 
 ```verilog
-// initialize registers for the simulator
+// initialize registers
 initial
 begin
     inc_led     <= 0;
@@ -1071,4 +1080,14 @@ concatenate operands together into a larger operand.
 The **if (button1_reg == 4'b0001)** is basically looking for
 a positive edge on the **~button1** signal.  When it sees the
 edge it toggles the **count_dir**.
+
+## Challenge!
+
+Update **led_counter2.v** so that:
+
+* A group of three leds bounce back and forth, so it looks like a
+  Battlestar Galactica Cylon Scanner or the Kit car in Knight Rider.
+
+Hint:
+* Use the __<<__ and __>>__ operators.
 
