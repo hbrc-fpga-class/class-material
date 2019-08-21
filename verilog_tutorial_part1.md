@@ -983,4 +983,92 @@ end
 endmodule
 ```
 
+The new functionality in this module is 
+1. __button0__ is used as a reset
+2. __button1__ is used to toggle the direction of the __led__
+counter.
+
+### resets
+
+Reset are useful for putting a module back into a default state.
+Often there is a system reset that is used to reset all
+the modules in the system.  
+
+It is also useful for simulation, for at the beginning of the
+simulation you can assert the reset and put all the registers in a
+known state.
+
+There are some disadvantages of resets in FPGAs as well.
+* They can take up precious routing resources.
+* It can degrade timing performance.
+* It can make mapping harder, if you have multiple reset signals.
+
+In general I use them, unless I'm resource limited.
+
+```verilog
+// reset when button0 is pushed
+wire reset = ~button0;
+```
+
+The above line creates a new signal called __reset__ that is
+asserted when __button0__ is pushed.
+
+A synchronous reset is only activated when the reset is asserted
+on the specified clock edge.
+
+```verilog
+// Synchronous Reset
+always @ (posedge clk)
+begin
+    if (reset) begin
+        [give default values to all regs set in the always block]
+    end else begin
+        ...
+    end
+end
+```
+
+For an aynchronous reset we add the reset signal to 
+the sensitivity list.  The always block now gets triggered
+if the clock goes high, or the reset.
+
+```verilog
+// Asynchronous Reset
+always @ (posedge clk, posedge reset)
+begin
+    if (reset) begin
+        [give default values to all regs set in the always block]
+    end else begin
+        ...
+    end
+end
+```
+I think that synchronous reset are the better choice.
+However you may see, asynchronous reset in code.
+
+### Shift registers and concatenation
+
+```verilog
+// Rising edge on button1, switches count direction.
+always @ (posedge clk_16mhz)
+begin
+    if (reset) begin
+        count_dir <= COUNT_UP;
+        button1_reg <= 0;
+    end else begin
+        button1_reg[3:0] <= {button1_reg[2:0], ~button1};
+        if (button1_reg == 4'b0001) begin
+            count_dir <= ~count_dir;
+        end
+    end
+end
+```
+
+In the code above **button1_reg** is a 4-bit shift register.
+This is specified using curly braces __{__ __}__ which
+concatenate operands together into a larger operand.
+
+The **if (button1_reg == 4'b0001)** is basically looking for
+a positive edge on the **~button1** signal.  When it sees the
+edge it toggles the **count_dir**.
 
