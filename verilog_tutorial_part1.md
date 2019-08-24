@@ -620,11 +620,11 @@ of button_led_reg1.v and button_led_reg2.v.  Ice40 is the target technology.
 
 * button_led_reg1 synthesis
 
-![button_led_reg1 synthesis](images/ys_bbuton_led_reg1_ice40.png)
+![button_led_reg1 synthesis](images/ys_button_led_reg1_ice40.png)
 
 * button_led_reg2 synthesis
 
-![button_led_reg2 synthesis](images/ys_bbuton_led_reg2_ice40.png)
+![button_led_reg2 synthesis](images/ys_button_led_reg2_ice40.png)
 
 We can see that in __button_led_reg1__ D flip flops (SB_DFF) are
 instantiated.
