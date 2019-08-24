@@ -351,6 +351,10 @@ class robot.
 The __synth_ice40__ option does synthesis targetting the ice40 architecture.  This **is**
 working on the class robot.
 
+If you are interested in more information on using yosys for interactive
+synthesis, and generating diagrams see
+[Yosys Application Note 011: Interactive Design Investigation](http://www.clifford.at/yosys/files/yosys_appnote_011_design_investigation.pdf)
+
 
 ## Place and Route
 
