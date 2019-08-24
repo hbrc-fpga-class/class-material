@@ -613,6 +613,31 @@ You can build this bitstream and download via:
 > make button_led_reg2
 ```
 
+## Comparing synthesis of button_led_reg1.v and button_led_reg2.v
+
+Below we can see the difference between the synthesis results
+of button_led_reg1.v and button_led_reg2.v.  Ice40 is the target technology.
+
+* button_led_reg1 synthesis
+
+![button_led_reg1 synthesis](images/ys_bbuton_led_reg1_ice40.png)
+
+* button_led_reg2 synthesis
+
+![button_led_reg2 synthesis](images/ys_bbuton_led_reg2_ice40.png)
+
+We can see that in __button_led_reg1__ D flip flops (SB_DFF) are
+instantiated.
+
+In __button_led_reg2__ there are **no** D flip flops in the design.
+Infact, this circuit diagram looks the same as the __button_led.v__
+synthesis diagram that did not use the always block. 
+
+It shows:
+* That just because you use a **reg** type you don't necessarly get a
+  register.
+* Different looking Verilog code can generate the same circuits.
+
 ---
 
 # Value Set
