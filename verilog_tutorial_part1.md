@@ -336,6 +336,22 @@ The output will be a [BLIF](http://www.cs.columbia.edu/~cs6861/sis/blif/index.ht
 > yosys -p 'synth_ice40 -top button_led -blif button_led.blif' button_led.v
 ```
 
+To generate the synthesis diagrams you can use the 
+[yosys show](http://www.clifford.at/yosys/cmd_show.html) command:
+
+```
+> yosys -p 'synth; clean; show -format png -prefix ys_button_led' button_led.v
+> yosys -p 'synth_ice40; clean; show -format png -prefix ys_button_led_ice40' button_led.v
+
+```
+
+The __synth__ option does generic synthesis.  At this time this is not working on the 
+class robot.
+
+The __synth_ice40__ option does synthesis targetting the ice40 architecture.  This **is**
+working on the class robot.
+
+
 ## Place and Route
 
 We are using [arachne-pnr](https://github.com/YosysHQ/arachne-pnr) for place and route.
