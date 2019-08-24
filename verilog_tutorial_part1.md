@@ -632,11 +632,11 @@ You can build this bitstream and download via:
 Below we can see the difference between the synthesis results
 of button_led_reg1.v and button_led_reg2.v.  Ice40 is the target technology.
 
-* button_led_reg1 synthesis
+* [button_led_reg1](#button_led_reg1v) synthesis
 
 ![button_led_reg1 synthesis](images/ys_button_led_reg1_ice40.png)
 
-* button_led_reg2 synthesis
+* [button_led_reg2](#button_led_reg2v) synthesis
 
 ![button_led_reg2 synthesis](images/ys_button_led_reg2_ice40.png)
 
