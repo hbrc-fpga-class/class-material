@@ -435,6 +435,20 @@ Now you can press the two user buttons and turn on two leds!!
 If you want the default bitstream back you can press the CRESET button
 again and it will load it from the SPI flash!!
 
+## prog_fpga.py does not work!
+
+During the class a number of people reported getting errors when running
+__prog_fpga.py__.  This was caused by the SPI module not being enabled
+on the robot's Raspberry Pi.
+
+To fix this, on the robot run:
+
+```
+> sudo raspi-config
+```
+
+Then enable SPI via "3 Interfacing Options->P3 SPI->Yes"
+
 ## The Makefile
 
 In the *1_Button_Led* directory there is a Makefile.  So you can run all the step above via
