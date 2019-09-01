@@ -43,7 +43,7 @@ To repeat that desciption:
 This solution does *not* use a state machine.  Instead it uses techniques
 learned in Part1.  Here is the Verilog:
 
-```verilog {.lineNo}
+```verilog {.line-numbers highlight=21-25}
 /* Kit car style leds. */
 /* No state machine version. */
 
