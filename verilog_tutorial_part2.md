@@ -249,9 +249,26 @@ end
 ```
 
 Try commenting out the **initial** line and regenerate the bitstream.
-No leds, why?  Now try hitting **button0**.  What happens.
+No leds, why?  Now try hitting **button0**.  What happens?
 
-## state_machine1.v
+## State Machines
+
+A **finite-state machine (FSM)** or simply **state machine** is an abstract
+machine that can be in exactly one of a finite number of states at
+any given time.   The state machine can transition from one state to another
+in response to some inputs.  In logic control applications there are two
+styles of state machines  **Moore Machines** and **Mealy Machines**.  Both
+of these types can be implemented in Verilog.
+
+* Moore Machine
+
+![Moore Machine](images/Moore_Machine.png)
+
+* Mealy Machine
+
+![Mealy Machine](images/Mealy_Machine.png)
+
+
 
 
 
