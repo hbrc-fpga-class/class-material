@@ -268,6 +268,36 @@ of these types can be implemented in Verilog.
 
 ![Mealy Machine](images/Mealy_Machine.png)
 
+Both types of state machines have these three parts:
+* **Next State Logic**.  Also called the Transition Logic.  This combines the current
+  state with the inputs and generates the next state.
+* **State Logic**.  This is the memory (registers) that record the current state.
+* **Output Logic**.  A state machine can have multiple outputs.  In a Moore Machine
+this is soley based on the current state.  In a Mealy Machine the outputs are based
+on the current state and the inputs.
+
+**Which is better?** I think it is largly a matter of taste.  But for FPGAs
+I think there is a good argument for using the Moore style in that the
+outputs can be synchronous with the state transistions.  And synchronous is
+good in FPGAs because it helps with timing.
+
+## State Machine Coding Style
+
+Since there are 3 parts to making a state machine, there are many styles
+to coding a state machine.  But basically boils down to:
+* **Three always blocks** : The next state logic and output logic are both modeled as
+  combintorial always blocks. The state logic is a synchronous always block.
+* **Two always blocks** : Two parts in one always block, and the other in another.
+* **One always block** : All three parts in one always block.  This is my favorite.
+This makes a Moore machine and the outputs are synchronous with the state
+transistions.  It also, usually, requires the least typing.
+
+**Note**: The important thing is you code the state-machine in a style that
+the synthesis tool will recognize as a state-machine.  Then depending on the 
+synthesis options, you can give it the freedom to recode it to optimize for area
+or speed for example.
+
+## state_machine1.v
 
 
 
