@@ -22,6 +22,9 @@ been written.  The order of the documentation is pretty random:
 * Class 3 Presentation, Aug 21, 2019.
   * [Verilog Tutorial Part 1 (.md)](verilog_tutorial_part1.md)
 
+* Class 4 Presentation, Sept 4, 2019.
+  * [Verilog Tutorial Part 2 (.md)](verilog_tutorial_part2.md)
+
 * [Teaser presentation (.pdf)](presentation.pdf):
   Slides from HBRC teaser talk. Generated using [Marp](https://github.com/marp-team/marp).
 
@@ -34,7 +37,7 @@ been written.  The order of the documentation is pretty random:
 * [Internet Issues](wifi.md):
   How to connect to your robot via internet.
 
-* [Verilog Tutorial Outline](verilog-tutorial/README.md):
+* [Verilog Tutorial Outline (old)](verilog-tutorial/README.md):
   Directory structure with sequential lessons teaching the basics of Verilog
 
 * [Class Members](class_members.md):

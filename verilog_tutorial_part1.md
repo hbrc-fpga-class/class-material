@@ -1,9 +1,8 @@
-<!-- $theme: gaia -->
-<!-- template: invert -->
+Verilog Tutorial Links:
+* [Part 1](https://github.com/hbrc-fpga-class/class-material/blob/master/verilog_tutorial_part1.md)
+* [Part 2](https://github.com/hbrc-fpga-class/class-material/blob/master/verilog_tutorial_part2.md)
 
----
-
-# Overview
+# Verilog Tutorial Part 1 Overview
 
 * Goals
 * Verilog History
