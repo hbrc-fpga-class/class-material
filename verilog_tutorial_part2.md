@@ -43,7 +43,7 @@ To repeat that desciption:
 This solution does *not* use a state machine.  Instead it uses techniques
 learned in Part1.  Here is the Verilog:
 
-```verilog {.line-numbers highlight=21-25}
+```verilog
 /* Kit car style leds. */
 /* No state machine version. */
 
@@ -131,4 +131,127 @@ end
 
 endmodule
 ```
+
+Items of note:
+* **button1** is used as an **en** (enable) signal.
+
+The notation:
+```verilog
+wire en = button1;
+``
+
+is equivalent to:
+```verilog
+wire en;
+assign en = button1;
+```
+
+As Verilog evolved syntax shortcuts like the above developed.
+Another one we use is putting the input/output ports and
+type all in the module declaration like this:
+
+```verilog
+module state_machine0
+(
+    input wire clk_16mhz,
+    input wire button0,
+    input wire button1,
+    output reg [7:0] led
+);
+```
+An older style that you will see is the input/output ports
+defined after the module declaration like this:
+
+```verilog
+module state_machine0 (clk_16mhz, button0, button1, led);
+
+// declare ports
+input clk_16mhz;
+input button0;
+input button1;
+output [7:0] led;
+
+// declare signal types
+wire clk_16mhz;
+wire button0;
+wire button1;
+reg [7:0] led;
+```
+
+* We add the **en** signal to gate incrementing **fast_count** which
+controls our **inc_led** signal.  This always block is a common
+pattern with a **reset** and **en**.
+
+```verilog
+// Generate a pulse to inc_leds every
+// quarter of a second.
+always @ (posedge clk_16mhz)
+begin
+    if (reset) begin
+        inc_led <= 0;
+        fast_count <= 0;
+    end else begin
+        if (en) begin
+            inc_led <= 0;       // default
+            fast_count <= fast_count + 1;
+            if (fast_count == DELAY_COUNT) begin
+                inc_led <= 1;
+                fast_count <= 0;
+            end
+        end
+    end
+end
+```
+
+* Instead of a button press to change **count_dir**.  We use
+**shift_count** to determine when to switch directions.
+
+```verilog
+// Change led direction after 5 shifts
+always @ (posedge clk_16mhz)
+begin
+    if (reset) begin
+        count_dir <= COUNT_UP;
+        shift_count <= 0;
+    end else begin
+        if (inc_led) begin
+            shift_count <= shift_count + 1;
+            if (shift_count == 4) begin
+                count_dir <= ~count_dir;
+                shift_count <= 0;
+            end
+        end
+    end
+end
+```
+
+* We initialize the leds to 8'b000_0111.  So the right three leds will
+be on at power up.  We use the shift operators to shift the leds left
+and right based on the **count_dir**.
+
+```verilog
+// Increment the led count.
+initial led <= 8'b000_0111;
+always @ (posedge clk_16mhz)
+begin
+    if (reset) begin
+        led <= 8'b000_0111;
+    end else begin
+        if (inc_led) begin
+            if (count_dir == COUNT_UP) begin
+                led <= led << 1;
+            end else begin
+                led <= led >> 1;
+            end
+        end
+    end
+end
+```
+
+Try commenting out the **initial** line and regenerate the bitstream.
+No leds, why?  Now try hitting **button0**.  What happens.
+
+## state_machine1.v
+
+
 
