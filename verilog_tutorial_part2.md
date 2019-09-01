@@ -138,7 +138,7 @@ Items of note:
 The notation:
 ```verilog
 wire en = button1;
-``
+```
 
 is equivalent to:
 ```verilog
