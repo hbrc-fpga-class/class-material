@@ -597,4 +597,19 @@ The following is a table from the datasheet.
 
 ![DRV8838 Logic](images/drv8838_logic.png)
 
+To control the speed of the robot we can _pwm_ the **en** pin.
+
+We can control the direction of the motor turns via the **ph** pin.
+
+## Pulse-width modulation (PWM)
+
+Pulse-width modulation (pwm) is a way of adjusting the average power delivered to the motor,
+so we can control the speed of the motor.  The way this is done is by adjusting the 
+**ON** to **OFF** time of a periodic signal.  The ratio of the **ON** time to the **OFF**
+time is called **duty cycle**.  Here are some examples of different duty cycles.
+
+![Duty Cycle](images/Duty_Cycle.png)
+
+
+
 
