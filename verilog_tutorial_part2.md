@@ -583,3 +583,18 @@ You can try out this code from the **4_State_Machine** directory via:
 > make state_machine1
 ```
 
+# [5_PWM_Module](https://github.com/hbrc-fpga-class/peripherals/tree/master/verilog_tutorial/5_PWM_Module)
+
+In this section we will move beyond blinking leds and drive a motor.
+We will do this by generating a PWM module.
+
+Our class robot is using the 
+[Pololu Motor Driver and Power Distribution Board for Romi Chassis](https://www.pololu.com/product/3543/specs).
+
+This board uses the [TI DRV8838](https://www.pololu.com/file/0J806/drv8838.pdf) for driving the motors.
+
+The following is a table from the datasheet.
+
+![DRV8838 Logic](images/drv8838_logic.png)
+
+
