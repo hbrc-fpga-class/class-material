@@ -443,7 +443,7 @@ A couple items to notice:
 reg [2:0] state;
  ```
 
- We define **state** as a register with 3 bits.  They allows us to have up
+ We define **state** as a register with 3 bits.  This allows us to have up
  to 8 states.
 
  * **State Machine states constants**
