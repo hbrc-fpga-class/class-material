@@ -248,6 +248,13 @@ begin
 end
 ```
 
+You can try out this code from the **4_State_Machine** directory via:
+
+```
+> make state_machine0
+```
+
+
 Try commenting out the **initial** line and regenerate the bitstream.
 No leds, why?  Now try hitting **button0**.  What happens?
 
@@ -537,5 +544,42 @@ begin
         endcase
     end
 end
+```
+
+We implement the state-machine using a **case** statement.  The general
+syntax for the **case** statement is the following:
+
+```verilog
+case (expr)
+    0 : statement0;
+    1 : statement1;
+    default : default_statement;
+endcase
+```
+
+Multiple statements can be group with a case item by putting it in a **begin** **end**
+block.  It is a good idea to always include a **default** item to catch
+any states that was not specified.  After a case item is executed flow
+continues after the **endcase**.
+
+Things to notice about this state-machine block:
+* **state and output registers** are initialized on reset and in the **default** item.
+
+* **A Case item** implements the three logic blocks, output logic, transition logic,
+  and state logic.
+
+```verilog
+STATE0 : begin
+    led <= 8'b1100_0011;
+    if (inc_led) begin
+        state <= STATE1;
+    end
+end
+```
+
+You can try out this code from the **4_State_Machine** directory via:
+
+```
+> make state_machine1
 ```
 
