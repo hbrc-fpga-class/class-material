@@ -597,9 +597,9 @@ The following is a table from the datasheet.
 
 ![DRV8838 Logic](images/drv8838_logic.png)
 
-To control the speed of the robot we can _pwm_ the **en** pin.
+To control the speed of the robot we can _pwm_ the **EN** pin.
 
-We can control the direction of the motor turns via the **ph** pin.
+We can control the direction of the motor turns via the **PH** pin.
 
 ## Pulse-width modulation (PWM)
 
@@ -610,6 +610,144 @@ time is called **duty cycle**.  Here are some examples of different duty cycles.
 
 ![Duty Cycle](images/Duty_Cycle.png)
 
+## pwm1.v
 
+```verilog
+// Force error when implicit net has no type.
+`default_nettype none
+
+module pwm1
+(
+    input wire clk_16mhz,
+    input wire button0,
+    input wire button1,
+    output wire [7:0] led,
+
+    // Motor pins
+    output reg pwm,
+    output wire dir,
+    output wire float_n
+);
+
+// Parameters
+localparam CLK_FREQUENCY = 16_000_000;
+localparam PWM_FREQUENCY = 100_000;
+localparam PERIOD_COUNT = (CLK_FREQUENCY/PWM_FREQUENCY);
+localparam COUNT_BITS = $clog2(PERIOD_COUNT);
+localparam DUTY_1_PERCENT = (PERIOD_COUNT/100);
+localparam DUTY_CYCLE = 20;
+localparam ON_COUNT = (DUTY_CYCLE*DUTY_1_PERCENT);
+
+// Assignments
+assign dir = ~button0;      // Button0 controls direction
+assign float_n = button1;   // Button1 enables float
+assign led = {6'h0,float_n,dir}; // Turn off leds
+
+// Signals
+reg [COUNT_BITS-1:0] pwm_count;
+
+// Generate PWM
+initial pwm<=0; // added for sim
+always @ (posedge clk_16mhz)
+begin
+    pwm_count <= pwm_count + 1;
+    pwm <= 1;
+    if (pwm_count >= ON_COUNT) begin
+        pwm <= 0;
+    end
+    if (pwm_count == PERIOD_COUNT) begin
+        pwm_count <= 0;
+    end
+end
+
+endmodule
+```
+
+In this example we generate a 100kHz PWM pulse with
+a 20% duty cycle.  We have **button0** control the motor
+direction and **button1** control the float_n pin.
+
+We also added the following to the **pins.pcf** to
+map our motor pins to the left motor
+
+```
+# Left Motor
+set_io pwm          C1  # PIN_5
+set_io dir          C2  # PIN_4
+set_io float_n      B1  # PIN_3
+```
+
+We can try this code from the **5_PWM_Module** directory via
+
+```
+> make pwm1
+```
+
+Things to notice:
+
+*  **Math in the Parameters**
+
+```
+localparam CLK_FREQUENCY = 16_000_000;
+localparam PWM_FREQUENCY = 100_000;
+localparam PERIOD_COUNT = (CLK_FREQUENCY/PWM_FREQUENCY);
+localparam COUNT_BITS = $clog2(PERIOD_COUNT);
+localparam DUTY_1_PERCENT = (PERIOD_COUNT/100);
+localparam DUTY_CYCLE = 20;
+localparam ON_COUNT = (DUTY_CYCLE*DUTY_1_PERCENT);
+```
+We let the Verilog Preprocessor do some math for us.  
+We define the CLK_FREQUENCY and PWM_FREQUENCY and then compute
+how many clock ticks it takes for a PWM period which
+we call **PERIOD_COUNT**.   
+
+NOTE: This division is integer division.  The fractional part is truncated.
+
+The **$clog2()** system function returns the ceiling of the
+logarithm to the base 2.  We use this to compute the number of
+bits we need for our **pwm_count** register.
+
+* **Use a parameter in register width**
+
+```verilog
+reg [COUNT_BITS-1:0] pwm_count;
+```
+This is fairly common in parameterized modules.  We have the __-1__ because
+it goes down to 0.
+
+* **Concatenation operator for setting led**
+
+```verilog
+assign led = {6'h0,float_n,dir}; // Turn off leds
+```
+
+Sets led[1]=float_n and led[0]=dir, and led[7:2]=0.
+
+* **Generating the pwm**
+
+```verilog
+initial pwm<=0; // added for sim
+always @ (posedge clk_16mhz)
+begin
+    pwm_count <= pwm_count + 1;
+    pwm <= 1;
+    if (pwm_count >= ON_COUNT) begin
+        pwm <= 0;
+    end
+    if (pwm_count == PERIOD_COUNT) begin
+        pwm_count <= 0;
+    end
+end
+```
+
+We intialize pwm to 0 for the simulator.  For the iCE40 it inits to 0 on
+powerup.
+
+By default we increment pwm_count and set pwm<=1.
+
+If the pwm_count is >= ON_COUNT then pwm<=0.
+
+If pwm_count == PERIOD_COUNT, then we reset pwm_count back to zero.
+And the signal repeats.
 
 
