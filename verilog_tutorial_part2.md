@@ -1,5 +1,3 @@
-# Under Development
-
 Verilog Tutorial Links:
 * [Part 1](https://github.com/hbrc-fpga-class/class-material/blob/master/verilog_tutorial_part1.md)
 * [Part 2](https://github.com/hbrc-fpga-class/class-material/blob/master/verilog_tutorial_part2.md)
@@ -10,9 +8,10 @@ Verilog Tutorial Links:
 * 4 State Machine
     * Shifting Solution
     * State Machine Solution
-* Paramertized modules
-* Instantiating modules
-* Testbenches 
+* 5 PWM Module
+    * Testbench
+    * Instantiating Modules
+    * Parametered Modules
 
 
 # [4_State_Machine](https://github.com/hbrc-fpga-class/peripherals/tree/master/verilog_tutorial/4_State_Machine)
