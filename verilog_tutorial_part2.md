@@ -10,8 +10,10 @@ Verilog Tutorial Links:
     * State Machine Solution
 * 5 PWM Module
     * Testbench
-    * Instantiating Modules
+* 6 Parameterized PWM Module
     * Parameterized Modules
+    * Instantiating Modules
+    * Top level Module
 
 
 # [4_State_Machine](https://github.com/hbrc-fpga-class/peripherals/tree/master/verilog_tutorial/4_State_Machine)
