@@ -1129,8 +1129,27 @@ Let's look at the simulated PWM waveform to find out.
 
 ## View the waveform
 
+We can use the tool [GTKWave](http://gtkwave.sourceforge.net/) to view the waveform data inside
+the __pwm1.vcd__ file
 
+There is information on how to setup the GTKWave viewer [here](gtkwave.md).
 
+If you have setup your robot to forward X11 over SSH 
+(i.e. you logged in to your robot via "ssh -X ubuntu@h01.local")
+
+You can type
+
+```
+> make view
+```
+
+If you are using SSHFS navigate to the __5_PWM_Module/pwm1_tb__ directory and
+double click on the __pwm1.vcd__ to start GTKWave.
+
+We will interactively select the signals we are interested and add them
+to the signals area.  When we are done it will look something like this:
+
+![GTKWave pwm](images/gtkwave_pwm1.png)
 
 
 
