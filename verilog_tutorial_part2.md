@@ -630,12 +630,11 @@ module pwm1
 
 // Parameters
 localparam CLK_FREQUENCY = 16_000_000;
-localparam PWM_FREQUENCY = 100_000;
+localparam PWM_FREQUENCY = 160_000;
 localparam PERIOD_COUNT = (CLK_FREQUENCY/PWM_FREQUENCY);
 localparam COUNT_BITS = $clog2(PERIOD_COUNT);
-localparam DUTY_1_PERCENT = (PERIOD_COUNT/100);
 localparam DUTY_CYCLE = 20;
-localparam ON_COUNT = (DUTY_CYCLE*DUTY_1_PERCENT);
+
 
 // Assignments
 assign dir = ~button0;      // Button0 controls direction
@@ -646,12 +645,19 @@ assign led = {6'h0,float_n,dir}; // Turn off leds
 reg [COUNT_BITS-1:0] pwm_count;
 
 // Generate PWM
-initial pwm<=0; // added for sim
+initial begin
+    // added for sim
+    pwm<=0; 
+    pwm_count<=0;
+    $display("DUTY_CYCLE: ",DUTY_CYCLE);
+    $display("PERIOD_COUNT: ",PERIOD_COUNT);
+    $display("COUNT_BITS: ",COUNT_BITS);
+end
 always @ (posedge clk_16mhz)
 begin
     pwm_count <= pwm_count + 1;
     pwm <= 1;
-    if (pwm_count >= ON_COUNT) begin
+    if (pwm_count >= DUTY_CYCLE) begin
         pwm <= 0;
     end
     if (pwm_count == PERIOD_COUNT) begin
@@ -725,7 +731,14 @@ Sets led[1]=float_n and led[0]=dir, and led[7:2]=0.
 * **Generating the pwm**
 
 ```verilog
-initial pwm<=0; // added for sim
+initial begin
+    // added for sim
+    pwm<=0; 
+    pwm_count<=0;
+    $display("DUTY_CYCLE: ",DUTY_CYCLE);
+    $display("PERIOD_COUNT: ",PERIOD_COUNT);
+    $display("COUNT_BITS: ",COUNT_BITS);
+end
 always @ (posedge clk_16mhz)
 begin
     pwm_count <= pwm_count + 1;
@@ -739,8 +752,8 @@ begin
 end
 ```
 
-We initialize pwm to 0 for the simulator.  For the iCE40 it inits to 0 on
-powerup.
+We intialize pwm and pwm_count to 0 for the simulator.  
+We also have the simulator print out some parameter values.
 
 By default we increment pwm_count and set pwm<=1.
 
@@ -760,6 +773,365 @@ In the world of software we have debuggers.  In the world of HDL we
 have simulators.  In fact Verilog was originally developed as
 a language to simulate circuits.
 
-... more to add here
+
+## pwm1_tb.v
+
+In the directory 5_PWM_Module/pwm1_tb there is a file called pwm1_tb.v which is a testbench for
+testing pwm1.v.  Here is the contents of pwm1_tb.v
+
+```verilog
+// Force error when implicit net has no type.
+`default_nettype none
+
+`timescale 1 ns / 1 ps
+
+
+module pwm1_tb;
+
+// Inputs (registers)
+reg clk_16mhz;
+reg button0;
+reg button1;
+
+// Output (wires)
+wire [7:0] led;
+wire pwm;
+wire dir;
+wire float_n;
+
+// Instantiate DUT (device under test)
+pwm1 pwm1_inst
+(
+    .clk_16mhz(clk_16mhz),
+    .button0(button0),
+    .button1(button1),
+    .led(led),  // [7:0]
+
+    // Motor pins
+    .pwm(pwm),
+    .dir(dir),
+    .float_n(float_n)
+);
+
+// Main testbench code
+initial begin
+    $dumpfile("pwm1.vcd");
+    $dumpvars(0, pwm1_tb);
+
+    // init inputs
+    clk_16mhz = 0;
+    button0 = 1;
+    button1 = 1;
+
+    // Wait 10us
+    #10000;
+    button0 = 0;
+
+    // Wait 10us
+    #10000;
+    button1 = 0;
+
+    // Wait 30us
+    #10000;
+
+    // end simulation
+    $display("done: ",$realtime);
+    $finish;
+end
+
+// Generate a 16mhz clk
+always begin
+    #31.25 clk_16mhz = ~clk_16mhz;
+end
+
+// Count pwm pulse and period
+reg pwm_pre = 0;
+wire pwm_posedge = pwm && ~pwm_pre;
+wire pwm_negedge = ~pwm && pwm_pre;
+
+localparam WAIT_START_COUNT = 0;
+localparam WAIT_PULSE_END   = 1;
+localparam WAIT_PERIOD_END  = 2;
+localparam DONE             = 3;
+reg [1:0] state = WAIT_START_COUNT;
+reg [7:0] period_count = 0;
+always @ (posedge clk_16mhz)
+begin
+    pwm_pre <= pwm; // for edges
+    case (state)
+        WAIT_START_COUNT : begin
+            if (pwm_posedge) begin
+                period_count <= 1;
+                state <= WAIT_PULSE_END;
+            end
+        end
+        WAIT_PULSE_END : begin
+            period_count <= period_count + 1;
+            if (pwm_negedge) begin
+                $display("pulse_count: ",period_count);
+                state <= WAIT_PERIOD_END;
+            end
+        end
+        WAIT_PERIOD_END : begin
+            period_count <= period_count + 1;
+            if (pwm_posedge) begin
+                $display("period_count: ",period_count);
+                state <= DONE;
+            end 
+        end
+        DONE : begin
+            // done, do nothing
+        end
+        default : begin
+            state <= WAIT_START_COUNT;
+        end
+    endcase
+end
+
+endmodule
+
+```
+
+Items to notice:
+
+* timescale directive
+
+```verilog
+`timescale 1 ns / 1 ps
+```
+
+The timescale directive specifies the units we are using.  We are saying that our unit are in
+nanoseconds and the granularity is in picoseconds.  So we can have value like 1.001.
+
+* Instantiation of the pwm1 module
+
+```verilog
+// Instantiate DUT (device under test)
+pwm1 pwm1_inst
+(
+    .clk_16mhz(clk_16mhz),
+    .button0(button0),
+    .button1(button1),
+    .led(led),  // [7:0]
+
+    // Motor pins
+    .pwm(pwm),
+    .dir(dir),
+    .float_n(float_n)
+);
+
+```
+
+This shows how we instantiate a module.  Basically the instantiation template is:
+
+```verilog
+<module_name> <unique_instance_name>
+(
+    .<port1>(<signal_to_connect>),
+    .<port2>(<signal_to_connect>),
+    ...
+    .<portn>(<signal_to_connect>)
+);
+```
+
+* Declare signals to connect to DUT module
+
+```verilog
+// Inputs (registers)
+reg clk_16mhz;
+reg button0;
+reg button1;
+
+// Output (wires)
+wire [7:0] led;
+wire pwm;
+wire dir;
+wire float_n;
+```
+
+These signals should be declared before they are used in the
+instantiation of the DUT.
+
+The signals that are inputs into the DUT are declared as **reg**
+because we need to drive them from our testbench.
+
+The signals that are outputs from the DUT are declared as **wire**.
+
+* The Main initial block
+
+```verilog
+// Main testbench code
+initial begin
+    $dumpfile("pwm1.vcd");
+    $dumpvars(0, pwm1_tb);
+
+    // init inputs
+    clk_16mhz = 0;
+    button0 = 1;
+    button1 = 1;
+
+    // Wait 10us
+    #10000;
+    button0 = 0;
+
+    // Wait 10us
+    #10000;
+    button1 = 0;
+
+    // Wait 30us
+    #10000;
+
+    // end simulation
+    $display("done: ",$realtime);
+    $finish;
+end
+```
+
+An **initial** block is often used to run the testbench.  Since it 
+starts at time 0, and runs through just once.  We also use
+the blocking __=__ assignment operator, so the operations happen
+sequentially.  
+
+The lines:
+
+```verilog
+    $dumpfile("pwm1.vcd");
+    $dumpvars(0, pwm1_tb);
+```
+
+Setup the Verilog simulator to generate a _Value Change Dump_ (VCD) file.
+The VCD format is an ASCII format that is part of the Verilog standard.
+
+The __$dumpvars(0, pwm1_tb)__ says to dump all of the variables
+in pwm1_tb and instantiated modules to the VCD file.  The '0' is the number
+of hiearchy levels to descend.  '0' is a special value that means ALL levels.
+
+Next we initialize our **reg** signals that are inputs to the DUT.
+
+We can then use the __#__ delay operator to wait the specified number
+of simulation time.  Because of the __`timescale__ directive this is in __ns__.
+
+Lastly when we are done we calle the system task __$finish__ to end
+the simulation.
+
+
+* Generate our 16mhz clk
+
+```verilog
+// Generate a 16mhz clk
+always begin
+    #31.25 clk_16mhz = ~clk_16mhz;
+end
+```
+
+We need to generate our clk_16mhz to drive our DUT module.
+We can use the __#__ delay operator to invert the signal at
+the specified rate.
+
+A full period is 31.25ns * 2 = 62.5ns.  The frequency is INV(62.5ns) = 16Mhz.
+
+* Verify the PWM signal is what we expect.
+
+```verilog
+// Count pwm pulse and period
+reg pwm_pre = 0;
+wire pwm_posedge = pwm && ~pwm_pre;
+wire pwm_negedge = ~pwm && pwm_pre;
+
+localparam WAIT_START_COUNT = 0;
+localparam WAIT_PULSE_END   = 1;
+localparam WAIT_PERIOD_END  = 2;
+localparam DONE             = 3;
+reg [1:0] state = WAIT_START_COUNT;
+reg [7:0] period_count = 0;
+always @ (posedge clk_16mhz)
+begin
+    pwm_pre <= pwm; // for edges
+    case (state)
+        WAIT_START_COUNT : begin
+            if (pwm_posedge) begin
+                period_count <= 1;
+                state <= WAIT_PULSE_END;
+            end
+        end
+        WAIT_PULSE_END : begin
+            period_count <= period_count + 1;
+            if (pwm_negedge) begin
+                $display("pulse_count: ",period_count);
+                state <= WAIT_PERIOD_END;
+            end
+        end
+        WAIT_PERIOD_END : begin
+            period_count <= period_count + 1;
+            if (pwm_posedge) begin
+                $display("period_count: ",period_count);
+                state <= DONE;
+            end 
+        end
+        DONE : begin
+            // done, do nothing
+        end
+        default : begin
+            state <= WAIT_START_COUNT;
+        end
+    endcase
+end
+```
+
+We use a state-machine to count how long how many clock cycles
+the PWM has the value of 1, and how many clock cycles the whole
+period is.  We then print out the values using __$display__.
+This is a little bit like debugging with __printf__ statements in C.
+
+## Run the simulation
+
+There is a **Makefile** in the **5_PWM_Module/pwm1_tb** directory
+that will run the simulation.
+
+It uses a file called __pwm1.vf__ which contains the list of files
+for iverilog to simulate.  In this pwm1.vf contains:
+
+```
+pwm1_tb.v
+../pwm1.v
+```
+
+The Makefile has the following targets:
+* **make compile**:     Compile only
+* **make run**:         Runs simulation
+* **make view**:        Starts GTKWave
+* **make clean**:       Cleans generated files
+
+Let's try running the simulation
+
+```
+> make run
+...
+vvp pwm1.vvp
+DUTY_CYCLE:  20
+PERIOD_COUNT:  100
+COUNT_BITS:           7
+VCD info: dumpfile pwm1.vcd opened for output.
+pulse_count:  20
+period_count: 101
+done: 30000.000
+```
+
+What we see here is our DUTY_CYCLE param is 20 and our pulse_count is 20.
+So that is what we expect.  So that test passes.
+
+However our PERIOD_COUNT param is 100 and our period_count from the testbench
+is 101. That does **NOT** match.  So we have a **bug**.
+
+But is the **bug** in our testbench or is it in our module?
+
+Let's look at the simulated PWM waveform to find out.
+
+## View the waveform
+
+
+
+
+
 
 
