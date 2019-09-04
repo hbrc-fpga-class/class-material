@@ -5,12 +5,12 @@ Verilog Tutorial Links:
 
 # Verilog Tutorial Part 2 Overview
 
-* 4 State Machine
+* [4 State Machine](#4_state_machine)
     * Shifting Solution
     * State Machine Solution
-* 5 PWM Module
+* [5 PWM Module](#5_pwm_module)
     * Testbench
-* 6 Parameterized PWM Module
+* [6 Parameterized PWM Module](#6_param_pwm_module)
     * Parameterized Modules
     * Instantiating Modules
     * Top level Module
