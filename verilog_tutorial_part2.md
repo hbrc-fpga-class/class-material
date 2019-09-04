@@ -1158,7 +1158,7 @@ Controls:
   bound marker using the left mouse button.  The marker distance will be in the toolbar
   area above the waveform window.
 
-If you like your waveform setup you can save it as a *.gtkw file via File->Write Save File.
+If you like your waveform setup you can save it as a .gtkw file via File->Write Save File.
 
 ## Fix the bug.
 
@@ -1170,8 +1170,164 @@ Fix the bug in pwm1.v and run the simulation and view the waveform to
 verify the bug has been fixed.
 
 
+# [6_Param_PWM_Module](https://github.com/hbrc-fpga-class/peripherals/tree/master/verilog_tutorial/6_Param_PWM_Module)
 
+In this section we turn our pwm module into a proper parameterized module.
+Then we create a __top.v__ module and instatiate two **pwm** modules,
+one for the left motor and one for the right motor.
 
+## Parameterized pwm.v
 
+```verilog
+// Force error when implicit net has no type.
+`default_nettype none
+
+module pwm #
+(
+    parameter CLK_FREQUENCY = 16_000_000,
+    parameter PWM_FREQUENCY = 160_000,
+    parameter PERIOD_COUNT = (CLK_FREQUENCY/PWM_FREQUENCY),
+    parameter COUNT_BITS = $clog2(PERIOD_COUNT),
+    parameter DUTY_CYCLE = 20
+)
+(
+    input wire clk_16mhz,
+    input wire dir_ctrl,
+    input wire float_ctrl,
+
+    // Motor pins
+    output reg pwm,
+    output wire dir,
+    output wire float_n
+);
+
+// Assignments
+assign dir = ~dir_ctrl;      // controls direction
+assign float_n = float_ctrl;   // enables float
+
+// Signals
+reg [COUNT_BITS-1:0] pwm_count;
+
+// Generate PWM
+always @ (posedge clk_16mhz)
+begin
+    pwm_count <= pwm_count + 1;
+    pwm <= 1;
+    if (pwm_count >= DUTY_CYCLE) begin
+        pwm <= 0;
+    end
+    if (pwm_count == (PERIOD_COUNT-1)) begin
+        pwm_count <= 0;
+    end
+end
+
+endmodule
+```
+
+The most notable difference is we moved the **localparam** definitions into
+the module definition block and called them **parameter**.
+
+The parameter section is indicated by the __#__ before the open __(__.
+It comes before the port declaration section.
+
+It is also possible to put the **parameter** definitions as regular
+statements further down in the module.  This is an older style.
+I like putting the **parameter** declaration in the module header
+to make it clear that they can be modified.
+
+We also renamed the ports **button0** and **button1** to **dir_ctrl** and **float_ctrl**.
+
+## top.v
+
+```verilog
+module top
+(
+    input wire  clk_16mhz,
+
+    // basicio
+    input wire [1:0] button,
+    output wire [7:0] led,
+
+    // motor pins
+    output wire [1:0] pwm,
+    output wire [1:0] dir,
+    output wire [1:0] float_n
+);
+
+localparam LEFT     = 0;
+localparam RIGHT    = 1;
+
+assign led = {6'h0,button[1],button[0]}; 
+
+// Instantiate PWM modules
+
+pwm #
+(
+    .DUTY_CYCLE(20)
+) pwm_left
+(
+    .clk_16mhz(clk_16mhz),
+    .dir_ctrl(button[0]),
+    .float_ctrl(button[1]),
+
+    // Motor pins
+    .pwm(pwm[LEFT]),
+    .dir(dir[LEFT]),
+    .float_n(float_n[LEFT])
+);
+
+pwm #
+(
+    .DUTY_CYCLE(30)
+) pwm_right
+(
+    .clk_16mhz(clk_16mhz),
+    .dir_ctrl(button[1]),
+    .float_ctrl(button[0]),
+
+    // Motor pins
+    .pwm(pwm[RIGHT]),
+    .dir(dir[RIGHT]),
+    .float_n(float_n[RIGHT])
+);
+
+endmodule
+```
+
+This is our top module.  In it we instantiate two copies of
+the **pwm** module, one called **pwm_left** and another called **pwm_right**.
+
+We are able to customize the DUTY_CYCLE parameter and make them different
+in each instantace.  The left DUTY_CYCLE will be 20, and the right DUTY_CYCLE
+will be 30.  So the right wheel will spin faster.
+
+Parameters that we don't specify will have default values from pwm.v.
+
+We also swap the buttons from **pwm_left** to **pwm_right**. So
+* **button[0]** will change the direction of the left motor and stop the right motor.
+* **button[1]** will change the direction of the right motor and stop the left motor.
+
+We also updated the pins.pcf to add the right motor pins.
+
+There is also a file called **compile.vf** which can be used by iverilog
+to do a syntax check of our two modules. Via the command
+
+```
+> iverilog -c compile.vf
+```
+
+## Challenge
+
+For a challenge you can update top.v and pwm.v so that:
+* The motors go the same speed
+* Button1, makes the motors go faster
+* Button0, makes the motors go slower
+* If motor speed "goes negative" change motor direction
+
+#  That's it!
+
+That complete part_2 of this Verilog tutorial.  With the information
+you learned from part_1 and part_2, you should be able to 
+understand most of the HBA Verilog peripherals in this repository.
 
 
