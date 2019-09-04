@@ -900,7 +900,7 @@ Items to notice:
 `timescale 1 ns / 1 ps
 ```
 
-The timescale directive specifies the units we are using.  We are saying that our unit are in
+The timescale directive specifies the units we are using.  We are saying that our units are in
 nanoseconds and the granularity is in picoseconds.  So we can have value like 1.001.
 
 * Instantiation of the pwm1 module
@@ -1004,14 +1004,14 @@ The VCD format is an ASCII format that is part of the Verilog standard.
 
 The __$dumpvars(0, pwm1_tb)__ says to dump all of the variables
 in pwm1_tb and instantiated modules to the VCD file.  The '0' is the number
-of hiearchy levels to descend.  '0' is a special value that means ALL levels.
+of hierarchy levels to descend.  '0' is a special value that means ALL levels.
 
 Next we initialize our **reg** signals that are inputs to the DUT.
 
 We can then use the __#__ delay operator to wait the specified number
 of simulation time.  Because of the __`timescale__ directive this is in __ns__.
 
-Lastly when we are done we calle the system task __$finish__ to end
+Lastly when we are done we call the system task __$finish__ to end
 the simulation.
 
 
@@ -1173,7 +1173,7 @@ verify the bug has been fixed.
 # [6_Param_PWM_Module](https://github.com/hbrc-fpga-class/peripherals/tree/master/verilog_tutorial/6_Param_PWM_Module)
 
 In this section we turn our pwm module into a proper parameterized module.
-Then we create a __top.v__ module and instatiate two **pwm** modules,
+Then we create a __top.v__ module and instantiate two **pwm** modules,
 one for the left motor and one for the right motor.
 
 ## Parameterized pwm.v
@@ -1298,7 +1298,7 @@ This is our top module.  In it we instantiate two copies of
 the **pwm** module, one called **pwm_left** and another called **pwm_right**.
 
 We are able to customize the DUTY_CYCLE parameter and make them different
-in each instantace.  The left DUTY_CYCLE will be 20, and the right DUTY_CYCLE
+in each instance.  The left DUTY_CYCLE will be 20, and the right DUTY_CYCLE
 will be 30.  So the right wheel will spin faster.
 
 Parameters that we don't specify will have default values from pwm.v.
@@ -1322,12 +1322,14 @@ For a challenge you can update top.v and pwm.v so that:
 * The motors go the same speed
 * Button1, makes the motors go faster
 * Button0, makes the motors go slower
-* If motor speed "goes negative" change motor direction
+
+Extra Credit:
+* If motor speed "goes negative" change motor direction.
 
 #  That's it!
 
-That complete part_2 of this Verilog tutorial.  With the information
-you learned from part_1 and part_2, you should be able to 
+That completes part_2 of this Verilog tutorial.  With the information
+you learned from [part_1](verilog_tutorial_part1.md) and part_2, you should be able to 
 understand most of the HBA Verilog peripherals in this repository.
 
 
