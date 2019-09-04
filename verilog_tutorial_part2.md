@@ -1151,6 +1151,27 @@ to the signals area.  When we are done it will look something like this:
 
 ![GTKWave pwm](images/gtkwave_pwm1.png)
 
+Controls:
+* You can move in and out of the waveform by holding **Ctrl** while using the mouse scroll wheel.
+* You can move the waveform size to size by just using the scroll wheel.
+* To make a measurement.  Set the lower bound marker using the "middle" mouse button.  Set the upper
+  bound marker using the left mouse button.  The marker distance will be in the toolbar
+  area above the waveform window.
+
+If you like your waveform setup you can save it as a *.gtkw file via File->Write Save File.
+
+## Fix the bug.
+
+The bug is in the pwm1.v file.  Basically the PWM period is one clock cycle too long.
+
+**Challenge**
+
+Fix the bug in pwm1.v and run the simulation and view the waveform to
+verify the bug has been fixed.
+
+
+
+
 
 
 
