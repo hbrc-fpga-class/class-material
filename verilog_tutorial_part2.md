@@ -696,7 +696,7 @@ localparam DUTY_1_PERCENT = (PERIOD_COUNT/100);
 localparam DUTY_CYCLE = 20;
 localparam ON_COUNT = (DUTY_CYCLE*DUTY_1_PERCENT);
 ```
-We let the Verilog Preprocessor do some math for us.  
+We let the Verilog Preprocessor do some math for us.
 We define the CLK_FREQUENCY and PWM_FREQUENCY and then compute
 how many clock ticks it takes for a PWM period which
 we call **PERIOD_COUNT**.   
@@ -749,5 +749,17 @@ If the pwm_count is >= ON_COUNT then pwm<=0.
 
 If pwm_count == PERIOD_COUNT, then we reset pwm_count back to zero.
 And the signal repeats.
+
+## Testbench
+
+How do we check that our pwm signal is really being generated as we expect?
+We could use an oscilloscope, that would tell us if we are close.
+It would be nice if we could tell if the waveform is correct
+before generating the FPGA bitstream.
+
+In the world of software we have debuggers.  In the world of HDL we
+have simulators.  In fact Verilog was originally developed as
+a language to simulate circuits.
+
 
 
