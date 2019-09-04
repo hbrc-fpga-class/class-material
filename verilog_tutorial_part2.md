@@ -11,7 +11,7 @@ Verilog Tutorial Links:
 * 5 PWM Module
     * Testbench
     * Instantiating Modules
-    * Parametered Modules
+    * Parameterized Modules
 
 
 # [4_State_Machine](https://github.com/hbrc-fpga-class/peripherals/tree/master/verilog_tutorial/4_State_Machine)
@@ -32,7 +32,7 @@ The target design for this section is the
 at the end of the 
 [verilog_tutorial_part1](https://github.com/hbrc-fpga-class/class-material/blob/master/verilog_tutorial_part1.md).
 
-To repeat that desciption:
+To repeat that description:
 
 * A group of three leds bounce back and forth, so it looks like a
   Battlestar Galactica Cylon Scanner or the Kit car in Knight Rider.
@@ -279,12 +279,12 @@ Both types of state machines have these three parts:
   state with the inputs and generates the next state.
 * **State Logic**.  This is the memory (registers) that record the current state.
 * **Output Logic**.  A state machine can have multiple outputs.  In a Moore Machine
-this is soley based on the current state.  In a Mealy Machine the outputs are based
+this is solely based on the current state.  In a Mealy Machine the outputs are based
 on the current state and the inputs.
 
-**Which is better?** I think it is largly a matter of taste.  But for FPGAs
+**Which is better?** I think it is largely a matter of taste.  But for FPGAs
 I think there is a good argument for using the Moore style in that the
-outputs can be synchronous with the state transistions.  And synchronous is
+outputs can be synchronous with the state transitions.  And synchronous is
 good in FPGAs because it helps with timing.
 
 ## State Machine Coding Style
@@ -292,11 +292,11 @@ good in FPGAs because it helps with timing.
 Since there are 3 parts to making a state machine, there are many styles
 to coding a state machine.  But basically boils down to:
 * **Three always blocks** : The next state logic and output logic are both modeled as
-  combintorial always blocks. The state logic is a synchronous always block.
+  combinatorial always blocks. The state logic is a synchronous always block.
 * **Two always blocks** : Two parts in one always block, and the other in another.
 * **One always block** : All three parts in one always block.  This is my favorite.
 This makes a Moore machine and the outputs are synchronous with the state
-transistions.  It also, usually, requires the least typing :-)
+transitions.  It also, usually requires the least typing :-)
 
 **Note**: The important thing is you code the state-machine in a style that
 the synthesis tool will recognize as a state-machine.  Then depending on the
@@ -469,7 +469,7 @@ Usually the state constants will have more descriptive names.
 
 Here we define the 8 states and the encoding for each of these states.
 We are using **Sequential State Encoding**.  There are other encodings 
-we could have choosen such as **Gray State Encoding** or 
+we could have chosen such as **Gray State Encoding** or 
 **One-Hot State Encoding**.  I usually stick with **Sequential State Encoding**.
 
 If you need to change the encoding style, there are usually options in the synthesis
@@ -556,7 +556,7 @@ case (expr)
 endcase
 ```
 
-Multiple statements can be group with a case item by putting it in a **begin** **end**
+Multiple statements can be grouped with a case item by putting it in a **begin** **end**
 block.  It is a good idea to always include a **default** item to catch
 any states that was not specified.  After a case item is executed flow
 continues after the **endcase**.
@@ -739,7 +739,7 @@ begin
 end
 ```
 
-We intialize pwm to 0 for the simulator.  For the iCE40 it inits to 0 on
+We initialize pwm to 0 for the simulator.  For the iCE40 it inits to 0 on
 powerup.
 
 By default we increment pwm_count and set pwm<=1.
@@ -760,5 +760,6 @@ In the world of software we have debuggers.  In the world of HDL we
 have simulators.  In fact Verilog was originally developed as
 a language to simulate circuits.
 
+... more to add here
 
 
