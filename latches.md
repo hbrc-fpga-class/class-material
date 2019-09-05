@@ -11,7 +11,6 @@ clocked flip flops.  Latches can degrade timing performance of the design.
 
 ## latch1.v
 
-
 ```verilog
 module latch1
 (
@@ -20,15 +19,12 @@ module latch1
     output reg [7:0] led
 );
 
-wire en = button0;
-reg [1:0] count = 0;
-
-assign led = {6'h0,count[1:0]};
+assign led[7:1] = 7'b0;
 
 always @ (*)
 begin
-    if (en) begin
-        count <= count + 1;
+    if (button0) begin
+        led[0] <= ~led[0];
     end
 end
 
@@ -38,7 +34,7 @@ endmodule
 The Verilog code above instantiates a latch.  The reason is because:
 1. It is a __combinatorial__ always block
 2. The **else** clause of the **if** statement is missing.
-If **en** == 0 then Verilog assumes that **count** should retain its
+If **en** == 0 then Verilog assumes that **led[0]** should retain its
 current state. Since this is a __combinatorial__ always block with
 no clock, the only way to maintain state is with a latch.
 
@@ -56,17 +52,14 @@ module latch2
     output reg [7:0] led
 );
 
-wire en = button0;
-reg [1:0] count = 0;
-
-assign led = {6'h0,count[1:0]};
+assign led[7:1] = 7'b0;
 
 always @ (*)
 begin
-    if (en) begin
-        count <= count + 1;
+    if (button0) begin
+        led[0] <= ~led[0];
     end else begin
-        count <= 0;
+        led[0] <= 0;
     end
 end
 
@@ -74,9 +67,9 @@ endmodule
 ```
 
 In the example above, no latches are infered because we
-have added an **else** that sets **count <= 0;**
+have added an **else** that sets **led[0] <= 0;**
 
-Note: That if our **else** clause was **count <= count;**
+Note: That if our **else** clause was **led[0] <= led[0];**
 that would infer a latch, and be equivalent to **latch1.v**
 above.  
 
@@ -94,15 +87,12 @@ module latch3
     output reg [7:0] led
 );
 
-wire en = button0;
-reg [1:0] count = 0;
-
-assign led = {6'h0,count[1:0]};
+assign led[7:1] = 7'b0;
 
 always @ (posedge clk_16mhz)
 begin
-    if (en) begin
-        count <= count + 1;
+    if (button0) begin
+        led[0] <= ~led[0];
     end
 end
 
