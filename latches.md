@@ -1,4 +1,4 @@
-# Synthesizing Latches
+# Latch Notes
 
 Basically a latch is a "clockless" memory element.  
 One way they can be create is with cross-coupled NAND gates.
