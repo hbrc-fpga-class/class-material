@@ -33,6 +33,9 @@ endmodule
 
 The Verilog code above instantiates a latch.  The reason is because:
 1. It is a __combinatorial__ always block
+
+**AND**
+
 2. The **else** clause of the **if** statement is missing.
 If **en** == 0 then Verilog assumes that **led[0]** should retain its
 current state. Since this is a __combinatorial__ always block with
