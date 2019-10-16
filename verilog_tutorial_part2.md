@@ -78,7 +78,7 @@ localparam COUNT_UP     = 0;
 localparam COUNT_DOWN   = 1;
 
 // Generate a pulse to inc_leds every
-// quarter of a second.
+// 1/16 of a second.
 always @ (posedge clk_16mhz)
 begin
     if (reset) begin
