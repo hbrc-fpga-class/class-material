@@ -25,6 +25,9 @@ been written.  The order of the documentation is pretty random:
 * Class 4 Presentation, Sept 4, 2019.
   * [Verilog Tutorial Part 2 (.md)](verilog_tutorial_part2.md)
 
+* Class 5 Presentation, Oct 16, 2019.
+  * [Verilog Tutorial Part 3 (.md)](verilog_tutorial_part3.md)
+
 * [Teaser presentation (.pdf)](presentation.pdf):
   Slides from HBRC teaser talk. Generated using [Marp](https://github.com/marp-team/marp).
 
