@@ -115,7 +115,7 @@ In the 2nd terminal type:
 > hbaset hba_motor mode bb              # puts both motors in break mode
 ```
 
-# Implementation of Speed Controller Peripheral
+# Implementation of Speed Controller Logic
 
 The basic implementation files are in the directory
 
@@ -323,6 +323,74 @@ end
 
 endmodule
 ```
+
+# Implementation of Speed Controller Peripheral
+
+Now lets create the speed controller peripheral
+
+```
+> cd ~/hbrc_fpga_class/peripherals      # cd to top level of peripherals repo
+> cp -r hba_basicio hba_speed_ctrl      # use hba_basicio as template
+> cd hba_speed_ctrl
+> mv hba_basicio.v hba_speed_ctrl.v     # rename to hba_speed_ctrl
+> cp ~/hbrc_fpga_class/peripherals/verilog_tutorial/8_Speed_Controller/*.v .
+```
+
+Update the file **compile.vf** so it looks like this
+
+```
+# iverilog -c compile.vf
+hba_speed_ctrl.v
+../hba_reg_bank/hba_reg_bank.v
+speed_controller.v
+comparator.v
+up_down_counter.v
+```
+
+
+Update the file **README.md** to define the port and register interfaces.  It should look
+like this:
+
+```
+# hba_speed_ctrl
+
+## Description
+
+This module is a HBA (HomeBrew Automation) bus peripheral.
+It enables a simple speed controller.
+
+## Port Interface
+
+This module implements an HBA Slave interface.
+It also has the following additional ports.
+
+* __speed_ctrl_actual_lspeed[7:0]__ (input) : Encoder speed of left motor
+* __speed_ctrl_actual_rspeed[7:0]__ (input) : Encoder speed of right motor
+* __speed_ctrl_lpwm[7:0]__ (output) : The pwm value for left motor
+* __speed_ctrl_rpwm[7:0]__ (output) : The pwm value for right motor
+
+## Register Interface
+
+There are three 8-bit registers.
+
+* __reg0__ : (reg_desired_lspeed) - Left speed in encoder ticks per period.
+* __reg1__ : (reg_desired_rspeed) - Right speed in encoder ticks per period.
+* __reg2__ : (reg_init_lpwm) - Initial left pwm duty cycle.
+* __reg3__ : (reg_init_rpwm) - Initial right eft pwm duty cycle.
+
+```
+
+Now lets update the **hba_speed_ctrl.v** file.
+
+The main things we need to do are:
+* Change the module name to hba_speed_ctrl
+* Update port interface to have the additional signals specified in the README.md
+* Update the regsiter bank instantiation to match registers in README.md
+* Instantiate the speed_control.v module
+* Add glue logic to tie things together
+
+
+
 
 
 
