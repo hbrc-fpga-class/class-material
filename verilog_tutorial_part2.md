@@ -24,7 +24,7 @@ started login to your robot using ssh and perform the following steps:
 ```
 > cd ~/hbrc_fpga_class/peripherals
 > source setup.bash
-> cd verilog_tutorial/4_State_Machines
+> cd verilog_tutorial/4_State_Machine
 ```
 
 ## Kit car style leds
