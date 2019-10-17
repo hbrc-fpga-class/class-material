@@ -66,6 +66,21 @@ Login into your robot and type:
 > sudo make install
 ```
 
+Then make sure the lastest version fpga bitstream is loaded on the tinyfpga.
+
+```
+> cd ~/hbrc_fpga_class/peripherals/projects/main_project/romi-pcb
+```
+
+* Connect a usb cable between the tinyfpga and the Pi
+* Press the button on the tinyfpga to put it in bootloader mode
+
+Now program the tinyfpga.
+
+```
+> tinyprog -p top.bin
+```
+
 Now we can restart the **hbadaemon** with the following commands:
 
 ```
