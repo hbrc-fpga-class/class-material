@@ -339,16 +339,15 @@ To generate the synthesis diagrams you can use the
 [yosys show](http://www.clifford.at/yosys/cmd_show.html) command:
 
 ```
-> yosys -p 'synth; clean; show -format png -prefix ys_button_led' button_led.v
+> yosys -p 'synth -noabc; clean; show -format png -prefix ys_button_led' button_led.v
 > yosys -p 'synth_ice40; clean; show -format png -prefix ys_button_led_ice40' button_led.v
 
 ```
 
-The __synth__ option does generic synthesis.  At this time this is not working on the 
-class robot.
+The __synth__ option does generic synthesis, without mapping of yosys's internal gate
+library to a target architecture.
 
-The __synth_ice40__ option does synthesis targetting the ice40 architecture.  This **is**
-working on the class robot.
+The __synth_ice40__ option does synthesis targetting the ice40 architecture.
 
 If you are interested in more information on using yosys for interactive
 synthesis, and generating diagrams see
